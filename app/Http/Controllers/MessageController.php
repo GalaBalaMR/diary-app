@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Message;
 use Illuminate\Http\Request;
+use App\Helpers\Helper;
 
 class MessageController extends Controller
 {
@@ -12,7 +13,15 @@ class MessageController extends Controller
      */
     public function index()
     {
-        //
+        Helper::isUserLogged();
+
+        $messages = Message::where('user_id', auth()->user()->id)->get();
+        $messagesReceive = Message::Where('receiver_id', auth()->user()->id)->get();
+        
+        return response()->json([
+            'send' => $messages,
+            'receive' => $messagesReceive
+        ]);
     }
 
     /**

@@ -65,7 +65,7 @@ class User extends Authenticatable
         return $this->hasMany(Gallery::class);
     }
 
-    public function todo()
+    public function todoes()
     {
         return $this->hasMany(Todo::class);
     }
