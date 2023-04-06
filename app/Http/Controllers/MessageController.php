@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Helper;
 use App\Models\Message;
 use Illuminate\Http\Request;
-use App\Helpers\Helper;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\StoreMessageRequest;
 
 class MessageController extends Controller
 {
@@ -13,8 +15,6 @@ class MessageController extends Controller
      */
     public function index()
     {
-        Helper::isUserLogged();
-
         $messages = Message::where('user_id', auth()->user()->id)->get();
         $messagesReceive = Message::Where('receiver_id', auth()->user()->id)->get();
         
@@ -25,19 +25,23 @@ class MessageController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreMessageRequest $request)
     {
-        //
+        $request->validated($request->all());
+
+        $message = Message::create([
+            'body' => $request->body,
+            'user_id' => auth()->user()->id,
+            'receiver_id' => $request->receiver_id,
+        ]);
+
+        return response()->json([
+            'status' => 'ok',
+            'message' => 'Your message was send...',
+            'item' => $message,
+        ]);
     }
 
     /**
@@ -45,23 +49,9 @@ class MessageController extends Controller
      */
     public function show(Message $message)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Message $message)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Message $message)
-    {
-        //
+        return response()->json([
+            'item' => $message,
+        ]);
     }
 
     /**
@@ -69,6 +59,17 @@ class MessageController extends Controller
      */
     public function destroy(Message $message)
     {
-        //
+        $helper = Helper::isUserNotAuthenticated($message);
+
+        if($helper !== true){
+            return $helper;
+        }; 
+        
+        $message->delete();
+
+        return response()->json([
+            'status' => 'ok',
+            'message' => 'Your message was deleted...'
+        ]);
     }
 }

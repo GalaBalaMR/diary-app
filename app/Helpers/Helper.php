@@ -19,6 +19,8 @@ class Helper
     {
         if (Auth::user()->id !== $model->user_id) {
             return response()->json(['status' => 'error', 'message' => 'You are not authorized for this action'], 403);
+        }else{ 
+            return true;
         }
     }
 }
