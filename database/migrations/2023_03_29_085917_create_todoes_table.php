@@ -15,8 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->longText('body');
+            $table->date('date');
             $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

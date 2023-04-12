@@ -6,6 +6,7 @@ use App\Models\Todo;
 use App\Helpers\Helper;
 use Illuminate\Http\Request;
 use App\Http\Requests\TodoStoreRequest;
+use App\Http\Resources\TodoesResource;
 
 class TodoController extends Controller
 {
@@ -22,11 +23,14 @@ class TodoController extends Controller
      */
     public function index()
     {
-        $todoes = Todo::where('user_id', auth()->user()->id)->with('todoCategories')->get();
+        // $todoes = Todo::where('user_id', auth()->user()->id)->with('todoCategories')->get();
 
-        return response()->json([
-            'todoes' => $todoes
-        ]);
+        // return response()->json([
+        //     'todoes' => $todoes
+        // ]);
+        return TodoesResource::collection(
+            Todo::where('user_id', auth()->user()->id)->get()
+        );
     }
 
     /**
@@ -36,16 +40,26 @@ class TodoController extends Controller
     {
         $request->validated($request->all());
 
+        if($request->has('todo_categories'))
+        {
+            $todoCategories = $request->todo_categories;
+        }
+
         $todo = Todo::create([
             'title' => $request->title,
             'body' => $request->body,
-            'todocategory_id' => $request->todocategory_id,
+            'date' => $request->date,
             'user_id' => auth()->user()->id
         ]);
 
+        if(isset($todoCategories))
+        {
+            $todo->todoCategories()->attach($todoCategories);
+        }
+
         return response()->json([
             'status' => 'ok',
-            'note' => $todo
+            'todo' => $todo
         ]);
     }
 
@@ -54,9 +68,7 @@ class TodoController extends Controller
      */
     public function show(Todo $todo)
     {
-        return response()->json([
-            'note' => $todo,
-        ]);
+        return new TodoesResource($todo);
     }
 
     /**
@@ -64,16 +76,27 @@ class TodoController extends Controller
      */
     public function update(Request $request, Todo $todo)
     {
+        if($request->has('todo_categories'))
+        {
+            $todoCategories = $request->todo_categories;
+        }
+
         $todo->update([
             'title' => $request->title,
             'body' => $request->body,
-            'todocategory_id' => $request->todocategory_id,
+            'date' => $request->date,
             'user_id' => auth()->user()->id
         ]);
 
+        if(isset($todoCategories))
+        {
+            $todo->todoCategories()->detach();
+            $todo->todoCategories()->attach($todoCategories);
+        }
+
         return response()->json([
             'status' => 'ok',
-            'note' => $todo
+            'todo' => $todo
         ]);
     }
 

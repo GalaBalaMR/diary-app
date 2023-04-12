@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Helpers\Helper;
 use App\Models\TodoCategory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use App\Http\Requests\TodoCategoryStoreRequest;
+use Error;
 
-class TodoCategoryCategoriesController extends Controller
+class TodoCategoriesController extends Controller
 {
     /**
      * Add middleware for some route
@@ -22,7 +24,9 @@ class TodoCategoryCategoriesController extends Controller
      */
     public function index()
     {
-        $todoCategories = TodoCategory::where('user_id', auth()->user()->id)->get();
+        $todoCategories =   Cache::remember('todoCategories', 10, function() {
+                                return TodoCategory::with('user', 'todoes')->get();
+                            });
 
         return response()->json([
             'todoCategories' => $todoCategories

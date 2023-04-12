@@ -18,6 +18,7 @@ class UserAuthenticateForAction
     {
         $url = explode('/', $request->route()->uri);
         $model = Str::singular($url[1], 2);
+
         $user_id = $request->$model->user_id;
 
         if(auth()->user()->id === $user_id)

@@ -17,7 +17,7 @@ class TodoCategory extends Model
 
     public function todoes()
     {
-        return $this->belongsToMany(Todo::class);
+        return $this->belongsToMany(Todo::class)->withTimestamps();
     }
 
     public function user()
