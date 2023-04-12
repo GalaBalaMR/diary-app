@@ -11,11 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('todocategories', function (Blueprint $table) {
-            $table->id();
-            $table->string('title');
-            $table->string('description');
-            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade')->nullable();
+        Schema::create('todo_todo_category', function (Blueprint $table) {
+            $table->foreignId('todo_id')->references('id')->on('todoes')->onDelete('cascade');
+            $table->foreignId('todo_category_id')->references('id')->on('todo_categories')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -25,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('todocategories');
+        Schema::dropIfExists('todo_todo_categories');
     }
 };

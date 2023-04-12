@@ -9,12 +9,21 @@ use App\Http\Requests\NoteStoreRequest;
 
 class NoteController extends Controller
 {
+
+    /**
+     * Add middleware for some route
+     */
+    public function __construct()
+    {
+        $this->middleware('UserAuthenticateForAction')->only(['show', 'update', 'create', 'destroy']);
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $notes = Note::all();
+        $notes = Note::where('user_id', auth()->user()->id)->get();
 
         return response()->json([
             'notes' => $notes
@@ -47,23 +56,9 @@ class NoteController extends Controller
      */
     public function show(Note $note)
     {
-        $helper = Helper::isUserNotAuthenticated($note);
-
-        if($helper !== true){
-            return $helper;
-        }; 
-
         return response()->json([
             'note' => $note,
         ]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Note $note)
-    {
-
     }
 
     /**
@@ -71,12 +66,6 @@ class NoteController extends Controller
      */
     public function update(Request $request, Note $note)
     {
-        $helper = Helper::isUserNotAuthenticated($note);
-
-        if($helper !== true){
-            return $helper;
-        }; 
-
         $note->update([
             'title' => $request->title,
             'body' => $request->body,
@@ -96,17 +85,28 @@ class NoteController extends Controller
      */
     public function destroy(Note $note)
     {
-        $helper = Helper::isUserNotAuthenticated($note);
-
-        if($helper !== true){
-            return $helper;
-        }; 
-
         $note->delete();
 
         return response()->json([
             'status' => 'ok',
             'message' => 'Your notes was delete...'
+        ]);
+    }
+
+    public function restore($id)
+    {
+        $note = Note::withTrashed()->find($id);
+        $helper = Helper::isUserNotAuthenticated($note);
+
+        if ($helper !== true) {
+            return $helper;
+        };
+
+        $note->restore();
+
+        return response()->json([
+            'status' => 'ok',
+            'message' => 'Your notes was restore...'
         ]);
     }
 }
