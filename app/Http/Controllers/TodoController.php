@@ -31,6 +31,8 @@ class TodoController extends Controller
         return TodoesResource::collection(
             Todo::where('user_id', auth()->user()->id)->get()
         );
+
+        // return response()->json(['hello' => 'helou back']);
     }
 
     /**

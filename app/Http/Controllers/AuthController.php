@@ -27,7 +27,7 @@ class AuthController extends Controller
 
         return $this->success([
             'user' => $user,
-            'token' => $user->createToken('API token of '. $user->name)->plainTextToken
+            // 'token' => $user->createToken('API token of '. $user->name)->plainTextToken
         ]);
     }
 
@@ -38,18 +38,19 @@ class AuthController extends Controller
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
+            'description' => $request->description,
             'password' => Hash::make($request->password)
         ]);
 
         return $this->success([
             'user' => $user,
-            'token' => $user->createToken('API token of '. $user->name)->plainTextToken
         ]);
     }
 
     public function logout()
     {
-        Auth::user()->currentAccessToken()->delete();
+        // Auth::user()->currentAccessToken()->delete();
+        Auth::logout();
 
         return $this->success([
             'message' => 'You have successfully been logged out...'
