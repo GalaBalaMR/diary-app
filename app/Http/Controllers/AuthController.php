@@ -27,7 +27,6 @@ class AuthController extends Controller
 
         return $this->success([
             'user' => $user,
-            // 'token' => $user->createToken('API token of '. $user->name)->plainTextToken
         ]);
     }
 
@@ -49,11 +48,21 @@ class AuthController extends Controller
 
     public function logout()
     {
-        // Auth::user()->currentAccessToken()->delete();
         Auth::logout();
 
         return $this->success([
             'message' => 'You have successfully been logged out...'
         ]);
+    }
+
+    public function getUser()
+    {
+        if (Auth::user()) {   // Check is user logged in
+            return response()->json([
+                'user' => Auth::user(),
+            ]);
+        } else {
+            return $this->error('', 'User is not logged.', '401');
+        }
     }
 }

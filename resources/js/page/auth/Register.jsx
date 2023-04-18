@@ -1,11 +1,14 @@
 import axios from "axios";
 import React from "react";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import useValidInput from "../../hooks/use-Valid-Input";
 import http from "../../service/Http";
+import { uiActions } from "../../store/ui-slice";
 
 const Register = () => {
+    const dispatch = useDispatch();
     const navigateTo = useNavigate();
 
     const {
@@ -80,13 +83,22 @@ const Register = () => {
             .post("/api/register", formData)
             .then((res) => {
                 console.log(res.data);
-                // navigateTo("/");
+                dispatch(uiActions.notification({
+                    status: "success",
+                    title: "Successfully logged in..",
+                    message: "Welcome back, son...",
+                }))
+                navigateTo("/user");
             })
             .catch((error) => {
                 if (error.response) {
                     // The request was made and the server responded with a status code
                     // that falls out of the range of 2xx
-                    console.log(error.response.data);
+                    dispatch(uiActions.notification({
+                        status: "danger",
+                        title: "Error",
+                        message: error.response.data.message,
+                    }))
                     // console.log(error.response.status);
                     // console.log(error.response.headers);
                 } else if (error.request) {

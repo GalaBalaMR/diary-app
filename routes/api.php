@@ -16,8 +16,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::resource('/todoes', TodoController::class);
     Route::get('/todoCategories/{id}/restore', [TodoCategoriesController::class, 'restore']);
     Route::apiResource('/todoCategories', TodoCategoriesController::class);
-    Route::post('/logout', [AuthController::class, 'logout']);
 });
 
+Route::get('/logout', [AuthController::class, 'logout']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/register', [AuthController::class, 'register']);
+Route::get('/get-user', [AuthController::class, 'getUser']);

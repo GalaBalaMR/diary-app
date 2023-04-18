@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 
 import useValidInput from "../../hooks/use-Valid-Input";
 import { userAction } from "../../store/user-slice";
+import { uiActions } from "../../store/ui-slice";
 import http from "../../service/Http";
 
 const Login = () => {
@@ -51,7 +52,12 @@ const Login = () => {
                 // console.log(data.data.data.user)
                 dispatch(userAction.addUser(data.data.data.user));
                 dispatch(userAction.isLogged(true));
-                navigateTo("/");
+                dispatch(uiActions.notification({
+                    status: "success",
+                    title: "Successfully logged in..",
+                    message: "Welcome back, son...",
+                }))
+                navigateTo("/user");
             })
             .catch((error) => {
                 if (error.response) {

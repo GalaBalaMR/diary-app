@@ -1,7 +1,19 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { NavLink, useNavigate } from "react-router-dom";
+
+import { logOutUser } from "../store/user-action";
 
 const MainNavigation = () => {
+    const navigateTo = useNavigate();
+    const dispatch = useDispatch();
+    const isLogged = useSelector((state) => state.user.isLogged);
+
+    const onClickLogOut = async () => {
+        dispatch(logOutUser());
+        navigateTo("/");
+    };
+
     return (
         <nav>
             <NavLink
@@ -22,6 +34,12 @@ const MainNavigation = () => {
             >
                 Register
             </NavLink>
+
+            {isLogged && (
+                <a href="#" onClick={onClickLogOut}>
+                    Log out
+                </a>
+            )}
         </nav>
     );
 };

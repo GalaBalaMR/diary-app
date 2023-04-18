@@ -16,3 +16,5 @@ use Illuminate\Support\Facades\Route;
 Route::view('/{path?}', 'welcome')
      ->where('path', '.*')
      ->name('react');
+
+// Route::view('/', 'welcome');

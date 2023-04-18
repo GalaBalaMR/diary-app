@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = { userInfo: true, isLogged: false };
+const initialState = { userInfo: [], isLogged: false, notes: [], messages: [] };
 const userSlice = createSlice({
   name: "user",
   initialState,
@@ -8,12 +8,15 @@ const userSlice = createSlice({
     addUser(state, action){
         state.userInfo = action.payload;
     },
+    addNotes(state, action){
+        state.notes = action.payload;
+    },
+    addMessages(state, action){
+        state.messages = action.payload;
+    },
     isLogged(state, action){
         state.isLogged = action.payload;
     },
-    getUser(state, action){
-        
-    }
   },
 });
 

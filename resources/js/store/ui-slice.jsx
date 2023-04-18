@@ -1,13 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = { nothification: null }
+const initialState = { notification: null }
 
 const uiSlice = createSlice({
     name: 'ui',
     initialState,
     reducers: {
-        nothification(state, action){
-            state.nothification = {
+        notification(state, action){
+            state.notification = null;
+            state.notification = {
                 status: action.payload.status,
                 title: action.payload.title,
                 message: action.payload.message

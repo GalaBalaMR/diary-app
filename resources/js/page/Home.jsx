@@ -1,15 +1,14 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-
-import { userAction } from "../store/user-slice";
+import { useSelector } from "react-redux";
+import Welcome from "../components/Welcome";
 
 const Home = () => {
-    const isLogged = useSelector((state) => state.user.userInfo);
-    console.log(isLogged);
+    const isLogged = useSelector((state) => state.user.isLogged);
+    const user = useSelector((state) => state.user.userInfo);
+
     return (
         <div id="home">
-            <div>Home</div>
-            { isLogged && <p>Welcome </p>}
+            <Welcome/>
         </div>
     );
 };
