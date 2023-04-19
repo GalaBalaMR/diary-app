@@ -16,8 +16,8 @@ const Root = () => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if(notification !== null){
-            setShowNotification(true)
+        if (notification !== null) {
+            setShowNotification(true);
             const timer = setTimeout(() => {
                 setShowNotification(false);
             }, 4000);
@@ -28,14 +28,15 @@ const Root = () => {
     useEffect(() => {
         if (initiate === true) {
             initiate = false;
-            dispatch(getUserData()); 
+            dispatch(getUserData());
         }
     }, [dispatch]);
-
+    // console.log(isLogged)
+    
     return (
         <div className="container">
-            { !isLogged && <MainNavigation />}
-            
+            {!isLogged && <MainNavigation />}
+
             {showNotification && (
                 <Notification
                     status={notification.message}

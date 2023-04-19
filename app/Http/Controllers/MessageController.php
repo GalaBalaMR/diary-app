@@ -16,7 +16,8 @@ class MessageController extends Controller
      */
     public function index()
     {
-        $messages = Message::where('user_id', auth()->user()->id)->orWhere('receiver_id', auth()->user()->id)->get();
+        $messages = Message::where('user_id', auth()->user()->id)->orWhere('receiver_id', auth()->user()->id)->orderBy('created_at', 'DESC')->get();
+        
         $idssend = $messages->pluck('user_id')->toArray();
         $idsrec = $messages->pluck('receiver_id')->toArray();
         $ids = array_merge($idssend, $idsrec);
@@ -26,14 +27,17 @@ class MessageController extends Controller
         foreach ($idsClear as $id) {
             $groupMessagesSend = $messages->where('user_id', $id);
             $groupMessagesRec = $messages->where('receiver_id', $id);
-            $groupMessages = $groupMessagesSend->merge($groupMessagesRec);
+            $groupMessages = $groupMessagesSend->merge($groupMessagesRec)->sortByDesc('created_at');
+            $resetIdMessages = $groupMessages->values();//reset id after previous line of sort by
             $user = User::find($id);
-            $groupMessages->put('user', $user);
+            // $groupMessages->put('user', $user);
 
-            $chats[] = $groupMessages;
+            $chats[] = ['chats' => $resetIdMessages, 'user' => $user];
         }
 
+        // dd($chats);
 
+        // dd($chats);
         // $messagesSend = Message::where('user_id', auth()->user()->id)->get();
         // $messagesReceive = Message::Where('receiver_id', auth()->user()->id)->get();
 

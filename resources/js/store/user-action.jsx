@@ -13,10 +13,12 @@ export const getUserData = () => {
                 dispatch(getMessagesData());
             })
             .catch((error) => {
+                dispatch(userAction.isLogged(false));
+
                 if (error.response) {
                     // The request was made and the server responded with a status code
                     // that falls out of the range of 2xx
-                    // console.log(error.response.data);
+                    console.log(error.response.data);
                     // console.log(error.response.status);
                     // console.log(error.response.headers);
                 } else if (error.request) {
@@ -76,6 +78,7 @@ export const getMessagesData = () => {
             .get("/api/messages")
             .then((data) => {
                 dispatch(userAction.addMessages(data.data.message));
+                // console.log(data.data.message[0][1].body)
             })
             .catch((error) => {
                 if (error.response) {
