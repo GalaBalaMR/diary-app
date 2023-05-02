@@ -28,6 +28,10 @@ class MessageController extends Controller
             $groupMessagesSend = $messages->where('user_id', $id);
             $groupMessagesRec = $messages->where('receiver_id', $id);
             $groupMessages = $groupMessagesSend->merge($groupMessagesRec)->sortByDesc('created_at');
+            $groupMessages->map(function ($message, $key) {
+                $message->created_diff = $message->created_at->diffForHumans();
+                return $message;
+            });//add created_diff to collection for readable date
             $resetIdMessages = $groupMessages->values();//reset id after previous line of sort by
             $user = User::find($id);
             // $groupMessages->put('user', $user);

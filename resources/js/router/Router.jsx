@@ -26,12 +26,6 @@ const Router = () => {
                       { path: "messages", element: <Messages /> },
                     ],
                 },
-
-                //   { path: "countries", element: <CountryRoot />, children: [
-                //     {index: true, element: <Countries />},
-                //     { path: ":countryId" , element: <CountryDetail />},
-                //     { path: "add" , element: <AddCountry />},
-                //   ]},
             ],
         },
     ]);

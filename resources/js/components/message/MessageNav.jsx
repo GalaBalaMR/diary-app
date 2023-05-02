@@ -1,21 +1,35 @@
-import React from "react";
-import Message from "../../page/user/message/MessageNavItem";
+import React, { useState } from "react";
+import MessageNavItem from "../../page/user/message/MessageNavItem";
 
 const MessageNav = (props) => {
+    const [messageId, setMessageId] = useState(0);
     const onClickMessage = (id) => {
-        props.onClickMessage(id)
-    }
+        props.onClickMessage(id);
+        setMessageId(id);
+    };
+
+    const onClickActive = () => {};
+
+    let active = "";
+
     const links = props.users.map((user) => {
+        if (messageId === user.key) {
+            active = " active";
+        } else {
+            active = "";
+        }
         return (
-            <div key={user.key} id={user.key}>
-                {/* <p id={user.key} key={user.key} onClick={onClickMessage}>
-                    {user.name}
-                </p> */}
-                <Message name={user.name} id={user.key} onClickMessage={onClickMessage} />
+            <div className={"item" + active} key={user.key} id={user.key}>
+                <MessageNavItem
+                    name={user.name}
+                    id={user.key}
+                    onClickMessage={onClickMessage}
+                    onClick={onClickActive}
+                />
             </div>
         );
     });
-    return <div>{links}</div>;
+    return <div className="messages-nav">{links}</div>;
 };
 
 export default MessageNav;

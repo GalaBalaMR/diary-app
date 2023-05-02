@@ -1,0 +1,19 @@
+@import "__variables";
+
+#messages{
+
+    .messages-nav{
+        display: flex;
+        flex-wrap: wrap;
+        // justify-content: flex-start;
+        padding: 10px;
+
+        .item{
+            flex-grow: 1;
+            text-align: center;
+            border: solid 1px grey;
+            border-collapse:collapse;
+            margin: 2px;
+        }
+    }
+}

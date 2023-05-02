@@ -1,0 +1,18 @@
+@import "__variables.scss";
+
+#user-interface{
+    height: 100%;
+    
+    .logged{
+        height: 100%;
+    }
+    .not-logged{
+        text-align: center;
+        padding: 5rem 3rem;
+        font-size: 2.5rem;
+        a{
+            text-decoration: none;
+            color: $blue-color;
+        }
+    }
+}

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
+import Chat from "../../../components/message/Chat";
 import MessageNav from "../../../components/message/MessageNav";
 
 const Messages = () => {
@@ -14,18 +15,7 @@ const Messages = () => {
     // console.log(messages);
     const messagesComponents = messages.map((mes, key) => {
         return (
-            <div id={key} key={key} className="border">
-                {key}
-                {Object.entries(mes.chats).map((value, key) => {
-                    return (
-                        <p key={key}>
-                            {value[1].body}
-                            {value[1].created_at}
-                        </p>
-                    );
-                })}
-                <p className="text-warning">{mes.user.name}</p>
-            </div>
+            <Chat id={key} key={key} user={mes.user} chats={mes.chats} />
         );
     });
 
@@ -35,7 +25,7 @@ const Messages = () => {
     };
 
     return (
-        <div>
+        <div id="messages">
             <MessageNav users={users} onClickMessage={onClickShowMessages}/>
             <p>Messages</p>
             {/* {messagesComponents[0]} */}

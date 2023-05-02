@@ -18,7 +18,7 @@ class MessageFactory extends Factory
     public function definition(): array
     {
         return [
-            'body' => fake()->name(),
+            'body' => fake()->sentence(2),
             'user_id' => User::all()->random()->id,
             'receiver_id' => User::all()->random()->id,
         ];

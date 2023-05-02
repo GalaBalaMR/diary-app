@@ -60,9 +60,10 @@ class AuthController extends Controller
         if (Auth::user()) {   // Check is user logged in
             return response()->json([
                 'user' => Auth::user(),
+                'status' => 'success'
             ]);
         } else {
-            return $this->error('', 'User is not logged.', '401');
+            return response()->json(['status' => 'error']);
         }
     }
 }

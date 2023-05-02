@@ -8,9 +8,12 @@ export const getUserData = () => {
         const login = await http
             .get("/api/get-user")
             .then((data) => {
-                dispatch(userAction.addUser(data.data.user));
-                dispatch(userAction.isLogged(true));
-                dispatch(getMessagesData());
+                if(data.data.status === 'success')
+                {
+                    dispatch(userAction.addUser(data.data.user));
+                    dispatch(userAction.isLogged(true));
+                    dispatch(getMessagesData());
+                }
             })
             .catch((error) => {
                 dispatch(userAction.isLogged(false));

@@ -34,7 +34,7 @@ const Root = () => {
     // console.log(isLogged)
     
     return (
-        <div className="container">
+        <div className="container-fluid h-100">
             {!isLogged && <MainNavigation />}
 
             {showNotification && (
@@ -45,7 +45,7 @@ const Root = () => {
                 />
             )}
 
-            <div id="outlet">
+            <div id="outlet" className="h-100">
                 <Outlet />
             </div>
         </div>

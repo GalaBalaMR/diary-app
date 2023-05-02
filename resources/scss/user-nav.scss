@@ -1,0 +1,48 @@
+@import "__variables";
+
+#user-nav{
+    border-right: solid 2px grey;
+
+    .name{
+        color: $blue-color;
+        padding: 10px;
+        font-weight: 600;
+        text-decoration: none;
+        font-size: 2.5rem;
+    }
+    nav{
+
+        display: flex;
+        flex-direction: column;
+        align-items: left;
+        padding-top: 20px;
+        
+        a{
+            font-size: 1.2rem;
+            padding: 10px;
+            text-align: left;
+    
+            font-weight: 500;
+            text-decoration: none;
+            color: $blue-color;
+            transition: transform .2s;
+        }
+    
+        a:hover{
+            color: #0c395f;
+            transform: scale(1.2);
+        }
+    
+        .active{
+            color: #0c395f;
+            margin-right: 10px;
+            background-color: #0e45f72b;
+            border-radius: 8px;
+        }
+        
+        .active:hover{
+            transform: scale(1.1);
+    
+        }
+    }
+}

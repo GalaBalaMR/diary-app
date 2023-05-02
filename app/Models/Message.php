@@ -12,9 +12,9 @@ class Message extends Model
 
     protected $guarded = ['id'];
 
-    protected $casts = [
-        'created_at' => "datetime:Y-m-d H:i:s",
-    ];
+    // protected $casts = [
+    //     'created_at' => "datetime:Y-m-d H:i:s",
+    // ];
 
     public function user()
     {
