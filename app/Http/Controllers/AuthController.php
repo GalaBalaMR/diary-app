@@ -7,8 +7,10 @@ use Illuminate\Http\Request;
 use App\Traits\HttpResponses;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Intervention\Image\Facades\Image;
 use App\Http\Requests\LoginUserRequest;
 use App\Http\Requests\StoreUserRequest;
+use Illuminate\Support\Facades\Storage;
 
 class AuthController extends Controller
 {
@@ -34,12 +36,30 @@ class AuthController extends Controller
     {
         $request->validated($request->all());
 
+        $pathImageThumb = '/storage/user/unknown/profile/unknown-thumbnail.jpeg';
+        $pathImage = '/storage/user/unknown/profile/unknown-thumbnail.jpeg';
+        
+        if($request->hasFile('img')){
+            $requestImg = $request->file('img');
+            $requestExtension = $requestImg->getClientOriginalExtension();
+            $image = Image::make($requestImg)->resize(1280, 720)->encode('jpg',80);
+            $imageThumb = Image::make($requestImg)->resize(320, 240)->encode('jpg',80);
+            Storage::put('public/user/profile/' . $request->name . '/' . $request->name . '-thumbnail.' . $requestExtension, $imageThumb); 
+            Storage::put('public/user/profile/' . $request->name . '/' . $request->name . '.' . $requestExtension, $image); 
+            $pathImageThumb = '/storage/user/' . $request->name . 'profile/' . $request->name . '-thumbnail.' . $requestExtension;
+            $pathImage = '/storage/user/' . $request->name . 'profile/' . $request->name . '.' . $requestExtension;
+        }
+
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'description' => $request->description,
-            'password' => Hash::make($request->password)
+            'password' => Hash::make($request->password),
+            'img' => $pathImage,
+            'thumb' => $pathImageThumb,
         ]);
+
+        Auth::loginUsingId($user->id);
 
         return $this->success([
             'user' => $user,

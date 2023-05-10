@@ -2,10 +2,9 @@ import React from "react";
 
 const Notification = (props) => {
     return (
-        <div>
-            <p>{props.status}</p>
+        <div className={'notification '+props.message}>
             <p>{props.title}</p>
-            <p>{props.message}</p>
+            <p>{props.status}</p>
         </div>
     );
 };

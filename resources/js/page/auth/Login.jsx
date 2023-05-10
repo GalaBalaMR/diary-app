@@ -66,25 +66,36 @@ const Login = () => {
                     console.log(error.response.data);
                     // console.log(error.response.status);
                     // console.log(error.response.headers);
+                    dispatch(uiActions.notification({
+                        status: "error",
+                        title: error.response.status,
+                        message: error.response.data.message,
+                    }))
                 } else if (error.request) {
-                    // The request was made but no response was received
-                    // `error.request` is an instance of XMLHttpRequest in the
-                    // browser and an instance of
-                    // http.ClientRequest in node.js
                     console.log(error.request);
+                    dispatch(uiActions.notification({
+                        status: "error",
+                        title: "Ooops...",
+                        message: "Something went wrong....",
+                    }))
                 } else {
                     // Something happened in setting up the request that triggered an Error
                     console.log("Error", error.message);
+                    dispatch(uiActions.notification({
+                        status: "error",
+                        title: "Ooops...",
+                        message: "Something went wrong....",
+                    }))
                 }
             });
     };
 
-    const emailClass = emailInputHasError ? "invalid" : "";
-    const passwordClass = passwordInputHasError ? "invalid" : "";
+    const emailClass = emailInputHasError ? "invalid d-flex flex-column align-items-center" : "d-flex flex-column align-items-center";
+    const passwordClass = passwordInputHasError ? "invalid d-flex flex-column align-items-center" : "d-flex flex-column align-items-center";
     return (
         <div id="login">
-            <form onSubmit={onSubmitHandler}>
-                <div className={emailClass}>
+            <form onSubmit={onSubmitHandler} className="d-flex flex-column align-items-center">
+                <div className={emailClass+ ' col-12 col-sm-10'} >
                     <label className="form-label" htmlFor="email">
                         Your Email
                     </label>
@@ -101,7 +112,7 @@ const Login = () => {
                     )}
                 </div>
 
-                <div className={passwordClass}>
+                <div className={passwordClass+ ' col-12 col-sm-10'}>
                     <label className="form-label" htmlFor="password">
                         Your Password
                     </label>
@@ -119,7 +130,7 @@ const Login = () => {
                         </p>
                     )}
                 </div>
-                <button disabled={!isValidForm} type="submit">
+                <button className="btn-cstm-orange col-4 mt-4" disabled={!isValidForm} type="submit">
                     Login
                 </button>
             </form>

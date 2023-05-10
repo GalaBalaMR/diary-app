@@ -1,15 +1,29 @@
 import axios from "axios";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 import useValidInput from "../../hooks/use-Valid-Input";
 import http from "../../service/Http";
 import { uiActions } from "../../store/ui-slice";
+import { getUserData } from "../../store/user-action";
 
 const Register = () => {
+    const [image, setImage] = useState(null);
+    const [preview, setPreview] = useState(null);
     const dispatch = useDispatch();
     const navigateTo = useNavigate();
+
+    useEffect(() => {
+        if (image) {
+            const previewObject = URL.createObjectURL(image);
+
+            setPreview(previewObject);
+            return;
+        }
+
+        setPreview(null);
+    }, [image]);
 
     const {
         value: enteredName,
@@ -56,6 +70,11 @@ const Register = () => {
         reset: resetPasswordConfirm,
     } = useValidInput((value) => value.length > 6);
 
+    //for image
+    const onChangeImg = (event) => {
+        setImage(event.target.files[0]);
+    };
+
     let isValidForm = false;
 
     if (
@@ -78,16 +97,20 @@ const Register = () => {
         formData.append("email", enteredEmail);
         formData.append("password", enteredPassword);
         formData.append("password_confirmation", enteredPasswordConfirm);
+        formData.append("img", image);
 
-        const login = await http
+        const register = await http
             .post("/api/register", formData)
             .then((res) => {
                 console.log(res.data);
-                dispatch(uiActions.notification({
-                    status: "success",
-                    title: "Successfully logged in..",
-                    message: "Welcome back, son...",
-                }))
+                dispatch(
+                    uiActions.notification({
+                        status: "success",
+                        title: "Successfully registered..",
+                        message: "We are lucky to see you...",
+                    })
+                );
+                dispatch(getUserData());
                 navigateTo("/user");
             })
             .catch((error) => {
@@ -95,8 +118,8 @@ const Register = () => {
                     // The request was made and the server responded with a status code
                     // that falls out of the range of 2xx
                     dispatch(uiActions.notification({
-                        status: "danger",
-                        title: "Error",
+                        status: "error",
+                        title: error.response.status,
                         message: error.response.data.message,
                     }))
                     // console.log(error.response.status);
@@ -122,8 +145,8 @@ const Register = () => {
 
     const passwordClass = passwordInputHasError ? "invalid" : "";
     return (
-        <div id="login">
-            <form onSubmit={onSubmitHandler}>
+        <div id="registration">
+            <form onSubmit={onSubmitHandler} encType="multipart/form-data">
                 <div className={nameClass}>
                     <label className="form-label" htmlFor="name">
                         Your Name
@@ -144,7 +167,9 @@ const Register = () => {
                 </div>
 
                 <div className={descriptionClass}>
-                    <label className="form-label" htmlFor="description">Your Description</label>
+                    <label className="form-label" htmlFor="description">
+                        Your Description
+                    </label>
                     <textarea
                         className="form-control"
                         id="description"
@@ -159,9 +184,11 @@ const Register = () => {
                     )}
                 </div>
                 <div className={emailClass}>
-                    <label className="form-label" htmlFor="email">Your Email</label>
+                    <label className="form-label" htmlFor="email">
+                        Your Email
+                    </label>
                     <input
-                    className="form-control"
+                        className="form-control"
                         type="email"
                         id="email"
                         onChange={emailInputHandler}
@@ -174,9 +201,11 @@ const Register = () => {
                 </div>
 
                 <div className={passwordClass}>
-                    <label className="form-label" htmlFor="password">Your Password</label>
+                    <label className="form-label" htmlFor="password">
+                        Your Password
+                    </label>
                     <input
-                    className="form-control"
+                        className="form-control"
                         type="password"
                         id="password"
                         onChange={passwordInputHandler}
@@ -191,9 +220,14 @@ const Register = () => {
                 </div>
 
                 <div className={passwordClass}>
-                    <label className="form-label" htmlFor="password_confirmation">Confirm Password</label>
+                    <label
+                        className="form-label"
+                        htmlFor="password_confirmation"
+                    >
+                        Confirm Password
+                    </label>
                     <input
-                    className="form-control"
+                        className="form-control"
                         type="password"
                         id="password_confirmation"
                         onChange={passwordInputHandlerConfirm}
@@ -206,6 +240,23 @@ const Register = () => {
                             Password.
                         </p>
                     )}
+                </div>
+
+                {preview && (
+                    <img src={preview} className="preview-img img-thumbnail" alt="..." ></img>
+                )}
+                    {/* <img src='storage/user/profile/adminadmin555/adminadmin555-thumbnail.jpeg' className="preview-img img-thumbnail" alt="..." ></img> */}
+
+
+
+                <div className="image">
+                    <label htmlFor="img">Upload image</label>
+                    <input
+                        type="file"
+                        name="img"
+                        id="img"
+                        onChange={onChangeImg}
+                    />
                 </div>
 
                 <button disabled={!isValidForm} type="submit">

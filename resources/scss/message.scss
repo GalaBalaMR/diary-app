@@ -1,19 +1,73 @@
 @import "__variables";
 
-#messages{
-
-    .messages-nav{
-        display: flex;
-        flex-wrap: wrap;
-        // justify-content: flex-start;
-        padding: 10px;
-
-        .item{
-            flex-grow: 1;
-            text-align: center;
-            border: solid 1px grey;
-            border-collapse:collapse;
-            margin: 2px;
-        }
+#messages {
+    height: auto;
+    h2{
+        text-align: center;
     }
+    ul {
+        list-style-type: none;
+        padding: 0;
+        height: 80vh;
+        overflow: auto;
+        scrollbar-color: rebeccapurple;
+        li{
+            a{
+                display: flex;
+                align-items: center;
+                padding: 10px 0;
+                width: fit-content;
+                color: $black-font;
+                text-decoration: none;
+
+                span{
+                    border-radius: 50%;
+                    width: 100px;
+                    height: 100px;
+                    max-width: 100px;
+                    min-width: 100px;
+                    max-height: 100px;
+                    min-height: 100px;
+                    background-position: center;
+                    background-repeat: no-repeat;
+                    background-size: cover;
+                }
+
+                .info{
+                    padding-left: 15px;
+                    transition: transform .2s;
+                    p{
+                        margin-bottom: 0;
+                    }
+
+                    .name{
+                        font-size: 1.3rem;
+                    }
+                    
+                    .message{
+                        font-size: 0.9rem;
+                        color: $blue-color;
+                    }
+                    
+                }
+
+            }
+        }
+        li:hover{
+            background-color: #f2f8fc;
+            .info{
+                transform: scale(1.1);
+            }
+        }
+      }
+      ul::-webkit-scrollbar {
+        background-color: transparent;
+        width: 5px;
+      }
+      ul::-webkit-scrollbar-thumb { 
+        background-color: rgb(222, 228, 228);
+        border-radius: 5px;
+      }
+
+    
 }

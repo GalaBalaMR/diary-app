@@ -2,9 +2,16 @@
 
 #user-interface{
     height: 100%;
+    overflow: hidden;
+
+    #nav-icon{
+        @media (min-width: 768px) { display: none; }
+        height: 30px;
+    }
     
     .logged{
         height: 100%;
+        @media (max-width: 768px) { height: auto; }
     }
     .not-logged{
         text-align: center;
@@ -14,5 +21,10 @@
             text-decoration: none;
             color: $blue-color;
         }
+    }
+
+    #user-outlet{
+        // width: 100%;
+        // padding: 0 5px;
     }
 }

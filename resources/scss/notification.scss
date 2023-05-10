@@ -1,0 +1,43 @@
+@import "__variables";
+
+
+.notification{
+    width: 100%;
+    height: 50px;
+    position: absolute;
+    left: 0px;
+    text-align: center;
+    border-radius: 10px;
+    animation-duration: 0.3s;
+    animation-name: notificationHeight;
+    transition: height 0.3s;
+    background-color: #807e7e;
+    p{
+        margin: 0;
+    }
+
+    .error{
+        background-color: red;
+    }
+}
+
+.notification.error{
+    background-color: #b71e1e;
+    color: $white-font;
+}
+
+.notification.success{
+    background-color: #45aa45;
+    color: $white-font;
+}
+
+@keyframes notificationHeight {
+    0%{
+        height: 0;
+    }
+    100%{
+        height: 50px;
+    }
+    
+}
+

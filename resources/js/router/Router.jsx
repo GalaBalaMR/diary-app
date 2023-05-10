@@ -6,7 +6,8 @@ import Register from "../page/auth/Register";
 import Home from "../page/Home";
 import Root from "../page/Root";
 import Messages from "../page/user/message/Messages";
-import Screen from "../page/user/Screen";
+import ChatPage from "../page/user/message/ChatPage";
+import Profile from "../page/user/Profile";
 
 const Router = () => {
     const router = createBrowserRouter([
@@ -22,8 +23,9 @@ const Router = () => {
                     path: "user",
                     element: <Index />,
                     children: [
-                      { index: true, element: <Screen /> },
+                      { index: true, element: <Profile /> },
                       { path: "messages", element: <Messages /> },
+                      { path: "messages/:id", element: <ChatPage /> },
                     ],
                 },
             ],

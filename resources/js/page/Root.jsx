@@ -10,6 +10,7 @@ let initiate = true;
 const Root = () => {
     const notification = useSelector((state) => state.ui.notification);
     const isLogged = useSelector((state) => state.user.isLogged);
+    const user = useSelector((state) => state.user.userInfo);
     const messages = useSelector((state) => state.user.messages);
 
     const [showNotification, setShowNotification] = useState(false);
@@ -31,12 +32,9 @@ const Root = () => {
             dispatch(getUserData());
         }
     }, [dispatch]);
-    // console.log(isLogged)
     
     return (
-        <div className="container-fluid h-100">
-            {!isLogged && <MainNavigation />}
-
+        <div className="position-relative container-fluid h-100">
             {showNotification && (
                 <Notification
                     status={notification.message}
@@ -44,6 +42,8 @@ const Root = () => {
                     message={notification.status}
                 />
             )}
+            {!isLogged && <MainNavigation />}
+
 
             <div id="outlet" className="h-100">
                 <Outlet />

@@ -27,27 +27,23 @@ class MessageController extends Controller
         foreach ($idsClear as $id) {
             $groupMessagesSend = $messages->where('user_id', $id);
             $groupMessagesRec = $messages->where('receiver_id', $id);
+
             $groupMessages = $groupMessagesSend->merge($groupMessagesRec)->sortByDesc('created_at');
+            
             $groupMessages->map(function ($message, $key) {
                 $message->created_diff = $message->created_at->diffForHumans();
                 return $message;
             });//add created_diff to collection for readable date
-            $resetIdMessages = $groupMessages->values();//reset id after previous line of sort by
+
+            $resetIdMessages = $groupMessages->reverse()->values();//reset id after previous line of sort by
             $user = User::find($id);
-            // $groupMessages->put('user', $user);
 
             $chats[] = ['chats' => $resetIdMessages, 'user' => $user];
         }
 
         // dd($chats);
 
-        // dd($chats);
-        // $messagesSend = Message::where('user_id', auth()->user()->id)->get();
-        // $messagesReceive = Message::Where('receiver_id', auth()->user()->id)->get();
-
         return response()->json([
-            // 'send' => $messagesSend,
-            // 'receive' => $messagesReceive,
             'message' => $chats
         ]);
     }

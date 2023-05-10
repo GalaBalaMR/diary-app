@@ -1,48 +1,97 @@
 @import "__variables";
 
-#user-nav{
+.user-nav {
     border-right: solid 2px grey;
+    @media (max-width: 767px) {
+        display: none;
+    }
 
-    .name{
+    .name {
         color: $blue-color;
         padding: 10px;
         font-weight: 600;
         text-decoration: none;
         font-size: 2.5rem;
+        word-wrap: break-word;
     }
-    nav{
-
+    nav {
         display: flex;
         flex-direction: column;
         align-items: left;
         padding-top: 20px;
-        
-        a{
+
+        a {
             font-size: 1.2rem;
             padding: 10px;
             text-align: left;
-    
+
             font-weight: 500;
             text-decoration: none;
             color: $blue-color;
-            transition: transform .2s;
+            transition: transform 0.2s;
+            transform-origin: 0% 0%;
         }
-    
-        a:hover{
+
+        a:hover {
             color: #0c395f;
-            transform: scale(1.2);
+            transform: scale(1.1);
         }
-    
-        .active{
+
+        .active {
             color: #0c395f;
             margin-right: 10px;
             background-color: #0e45f72b;
             border-radius: 8px;
         }
-        
-        .active:hover{
-            transform: scale(1.1);
-    
+
+        .active:hover {
+            transform: scale(1.03);
+            background-color: #0511fd2b;
         }
+    }
+}
+
+#hidden {
+    display: block;
+    position: absolute;
+    background-color: $background-white;
+    top: 35px;
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid gray;
+    animation-duration: 0.3s;
+    animation-name: lineInserted;
+    transition: height 0.3s;
+    overflow: hidden;
+
+    a {
+        margin: 0 20px;
+        text-align: center;
+        transform-origin: 50% 50%;
+    }
+
+    a:last-of-type{
+        margin-bottom: 15px;
+    }
+
+    .name {
+        margin: auto;
+        display: block;
+        width: fit-content;
+    }
+
+    nav {
+        a:hover {
+            transform: scale(1.2);
+        }
+    }
+}
+
+@keyframes lineInserted {
+    from {
+        height: 0;
+    }
+    to {
+        height: 50%;
     }
 }

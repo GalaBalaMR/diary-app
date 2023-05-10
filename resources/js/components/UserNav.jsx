@@ -14,8 +14,12 @@ const UserNav = (props) => {
         navigateTo("/");
     };
 
+    const onClickClose =() => {
+        props.onClickClose()
+    }
+
     return (
-        <div id="user-nav" className="col-3">
+        <div id={props.idNav} className="user-nav col-12 col-md-5">
             <Link to="" className="name">
                 {user.name}
             </Link>
@@ -25,6 +29,7 @@ const UserNav = (props) => {
                     to=""
                     end
                     className={({ isActive }) => (isActive ? "active" : "")}
+                    onClick={onClickClose}
                 >
                     Profile
                 </NavLink>
@@ -32,6 +37,7 @@ const UserNav = (props) => {
                 <NavLink
                     to="messages"
                     className={({ isActive }) => (isActive ? "active" : "")}
+                    onClick={onClickClose}
                 >
                     Messages
                 </NavLink>
@@ -39,6 +45,7 @@ const UserNav = (props) => {
                 <NavLink
                     to="todoes"
                     className={({ isActive }) => (isActive ? "active" : "")}
+                    onClick={onClickClose}
                 >
                     To Do
                 </NavLink>
@@ -46,6 +53,7 @@ const UserNav = (props) => {
                 <NavLink
                     to="diary"
                     className={({ isActive }) => (isActive ? "active" : "")}
+                    onClick={onClickClose}
                 >
                     Diary
                 </NavLink>
