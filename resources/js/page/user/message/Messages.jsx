@@ -41,12 +41,13 @@ const Messages = () => {
         </li>
     ));
 
-    console.log(messages);
-
     return (
         <div id="messages" className="d-flex flex-column">
             <h2 className="">Messages</h2>
             <ul className="col-12">{names}</ul>
+            <Link to="new" className="btn-cstm-orange col-6 text-center m-auto mt-3 text-decoration-none">
+                Send New Message
+            </Link>
         </div>
     );
 };

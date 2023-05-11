@@ -2,7 +2,8 @@
 
 #user-interface{
     height: 100%;
-    overflow: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
 
     #nav-icon{
         @media (min-width: 768px) { display: none; }
@@ -21,10 +22,5 @@
             text-decoration: none;
             color: $blue-color;
         }
-    }
-
-    #user-outlet{
-        // width: 100%;
-        // padding: 0 5px;
     }
 }

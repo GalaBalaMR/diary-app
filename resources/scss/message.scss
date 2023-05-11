@@ -8,9 +8,9 @@
     ul {
         list-style-type: none;
         padding: 0;
-        height: 80vh;
+        height: 60vh;
         overflow: auto;
-        scrollbar-color: rebeccapurple;
+
         li{
             a{
                 display: flex;
@@ -36,6 +36,8 @@
                 .info{
                     padding-left: 15px;
                     transition: transform .2s;
+                    transform-origin: 0% 0%;
+                    margin: 10px;
                     p{
                         margin-bottom: 0;
                     }
@@ -56,7 +58,7 @@
         li:hover{
             background-color: #f2f8fc;
             .info{
-                transform: scale(1.1);
+                transform: scale(1.02);
             }
         }
       }

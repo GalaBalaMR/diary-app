@@ -9,8 +9,8 @@ const ChatForm = (props) => {
     const [userId, setUserId] = useState(authUser.id);
     const [errorMessage, setErrorMessage] = useState("Add message...");
     const [receiverId, setReceiverId] = useState(props.user.id);
-    // const messageBodyRef = useRef();
     const dispatch = useDispatch();
+
     const {
         value: bodyValue,
         isValid: isValidBody,
@@ -19,8 +19,6 @@ const ChatForm = (props) => {
         onBlurHandler,
         reset,
     } = useValidInput((value) => value.length > 0);
-
-    console.log(hasError);
 
     const onSubmitEvent = (e) => {
         e.preventDefault();
@@ -40,7 +38,7 @@ const ChatForm = (props) => {
         };
         dispatch(
             userAction.updateMessage({
-                id: props.user.id,
+                user: props.user,
                 message: message,
             })
         );

@@ -137,17 +137,19 @@ const Register = () => {
             });
     };
 
-    const nameClass = emailInputHasError ? "invalid" : "";
+    const classes = " d-flex flex-column align-items-center";
 
-    const descriptionClass = emailInputHasError ? "invalid" : "";
+    const nameClass = emailInputHasError ? "invalid"+ classes : "" + classes;
 
-    const emailClass = emailInputHasError ? "invalid" : "";
+    const descriptionClass = emailInputHasError ? "invalid"+ classes : ""+ classes;
 
-    const passwordClass = passwordInputHasError ? "invalid" : "";
+    const emailClass = emailInputHasError ? "invalid"+ classes : ""+ classes;
+
+    const passwordClass = passwordInputHasError ? "invalid"+ classes : ""+ classes;
     return (
         <div id="registration">
-            <form onSubmit={onSubmitHandler} encType="multipart/form-data">
-                <div className={nameClass}>
+            <form className="d-flex align-items-center flex-column py-3" onSubmit={onSubmitHandler} encType="multipart/form-data">
+                <div className={nameClass+ " col-12 col-sm-10"}>
                     <label className="form-label" htmlFor="name">
                         Your Name
                     </label>
@@ -166,7 +168,7 @@ const Register = () => {
                     )}
                 </div>
 
-                <div className={descriptionClass}>
+                <div className={descriptionClass+ " col-12 col-sm-10"}>
                     <label className="form-label" htmlFor="description">
                         Your Description
                     </label>
@@ -183,7 +185,7 @@ const Register = () => {
                         </p>
                     )}
                 </div>
-                <div className={emailClass}>
+                <div className={emailClass+ " col-12 col-sm-10"}>
                     <label className="form-label" htmlFor="email">
                         Your Email
                     </label>
@@ -200,7 +202,7 @@ const Register = () => {
                     )}
                 </div>
 
-                <div className={passwordClass}>
+                <div className={passwordClass+ " col-12 col-sm-10"}>
                     <label className="form-label" htmlFor="password">
                         Your Password
                     </label>
@@ -219,7 +221,7 @@ const Register = () => {
                     )}
                 </div>
 
-                <div className={passwordClass}>
+                <div className={passwordClass+ " col-12 col-sm-10"}>
                     <label
                         className="form-label"
                         htmlFor="password_confirmation"
@@ -243,15 +245,16 @@ const Register = () => {
                 </div>
 
                 {preview && (
-                    <img src={preview} className="preview-img img-thumbnail" alt="..." ></img>
+                    <img src={preview} className="preview-img img-thumbnail my-3" alt="..." ></img>
                 )}
                     {/* <img src='storage/user/profile/adminadmin555/adminadmin555-thumbnail.jpeg' className="preview-img img-thumbnail" alt="..." ></img> */}
 
 
 
-                <div className="image">
-                    <label htmlFor="img">Upload image</label>
+                <div className="image col-12 col-sm-10 my-3">
+                    <label className="mb-2 d-block text-center" htmlFor="img">Upload image</label>
                     <input
+                        className="d-block col-12"
                         type="file"
                         name="img"
                         id="img"
@@ -259,8 +262,8 @@ const Register = () => {
                     />
                 </div>
 
-                <button disabled={!isValidForm} type="submit">
-                    Login
+                <button className="btn-cstm-orange col-6 col-md-3" disabled={!isValidForm} type="submit">
+                    Register
                 </button>
             </form>
         </div>

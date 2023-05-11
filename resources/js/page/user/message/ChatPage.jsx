@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Chat from "../../../components/message/Chat";
 import ChatForm from "../../../components/message/ChatForm";
 
@@ -32,7 +32,9 @@ const ChatPage = () => {
 console.log(messages)
     return (
         <div className="h-100">
+          <Link to={"/user/profile/" + user.id} state={user}>
             <h2 className="text-center">{user && user.name}</h2>
+          </Link>
             {chat}
             <ChatForm user={user} />
         </div>

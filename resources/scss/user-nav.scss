@@ -2,6 +2,7 @@
 
 .user-nav {
     border-right: solid 2px grey;
+    z-index: 100;
     @media (max-width: 767px) {
         display: none;
     }

@@ -11,11 +11,13 @@
 @import "user-interface";
 @import "user-nav";
 @import "message";
+@import "messages-new";
 @import "chat";
 
 
 #app{
     background-color: azure;
+    overflow: auto;
     margin: 0 5%;
     border-radius: 10px;
     box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;

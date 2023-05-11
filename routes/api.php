@@ -8,6 +8,7 @@ use App\Http\Controllers\TodoController;
 use App\Http\Controllers\MessageController;
 use App\Http\Controllers\TodoCategoriesController;
 
+Route::get('/messages/new-user', [MessageController::class, 'newMessage']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::resource('/messages', MessageController::class);
     Route::get('/notes/{id}/restore', [NoteController::class , 'restore']);

@@ -27,12 +27,9 @@ const Root = () => {
     }, [notification]);
 
     useEffect(() => {
-        if (initiate === true) {
-            initiate = false;
-            dispatch(getUserData());
-        }
-    }, [dispatch]);
-    
+        dispatch(getUserData());
+    }, [isLogged]);
+
     return (
         <div className="position-relative container-fluid h-100">
             {showNotification && (
@@ -43,7 +40,6 @@ const Root = () => {
                 />
             )}
             {!isLogged && <MainNavigation />}
-
 
             <div id="outlet" className="h-100">
                 <Outlet />

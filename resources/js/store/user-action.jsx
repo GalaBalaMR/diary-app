@@ -73,6 +73,8 @@ export const logOutUser = () => {
     };
 };
 
+// MESSAGE-----------------------------------------------------------------
+
 export const getMessagesData = () => {
     return async (dispatch) => {
         // const csrf = await http.get("/sanctum/csrf-cookie");
@@ -115,7 +117,7 @@ export const updateMessageBE = (data) => {
         const messages = await http
             .post("/api/messages", formData)
             .then((data) => {
-                console.log(data);
+                // console.log(data);
             })
             .catch((error) => {
                 if (error.response) {
@@ -135,5 +137,20 @@ export const updateMessageBE = (data) => {
                     console.log("Error", error.message);
                 }
             });
+    };
+};
+
+export const getNoConnectUser = () => {
+    return async (dispatch) => {
+        const messages = await http
+            .get("api/messages/new-user")
+            .then((data) => {
+                dispatch(userAction.getNonConnectUsers(data.data));
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+
+        return messages;
     };
 };

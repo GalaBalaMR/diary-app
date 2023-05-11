@@ -1,6 +1,12 @@
 import { createSlice, current } from "@reduxjs/toolkit";
 
-const initialState = { userInfo: [], isLogged: false, notes: [], messages: [] };
+const initialState = {
+    userInfo: [],
+    isLogged: false,
+    notes: [],
+    messages: [],
+    nonConnectUsers: [],
+};
 const userSlice = createSlice({
     name: "user",
     initialState,
@@ -18,18 +24,31 @@ const userSlice = createSlice({
             state.isLogged = action.payload;
         },
         updateMessage(state, action) {
-            // const messages = state.messages;
-            state.messages.filter(
-                (message) => message.user.id == action.payload.id
-            ).map((message) => {
-                if (message.user.id == action.payload.id) {
-                    return (message.chats.push(action.payload.message));
-                }
+            let ids = [];
+            state.messages
+                // .filter((message) => message.user.id == action.payload.id)
+                .map((message) => {
+                    ids.push(message.user.id);
+                    if (message.user.id == action.payload.user.id) {
+                        console.log("jel");
+                        return message.chats.push(action.payload.message);
+                    }
+                    // console.log("pfuuu");
+                    // return message;
+                });
 
-                return message;
-            });
-
-            console.log(current(state.messages));
+                console.log(ids.indexOf(action.payload.id) > -1);
+            if (ids.indexOf(action.payload.id) > -1 === false) {
+                console.log( action.payload.user);
+                state.messages.push({
+                    chats: [action.payload.message],
+                    user:   action.payload.user
+                });
+                console.log()
+            }
+        },
+        getNonConnectUsers(state, action) {
+            state.nonConnectUsers = action.payload;
         },
     },
 });

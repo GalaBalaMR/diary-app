@@ -1,0 +1,18 @@
+@import "__variables";
+
+.messages-new{
+    .card{
+        display: none;
+        z-index: 5;
+        @media (max-width: px) {
+            display: none;
+        }
+        img{
+            height: 100%;
+        }
+    }
+    .isActive{
+        display: block;
+    }
+
+}

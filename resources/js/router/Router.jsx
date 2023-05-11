@@ -8,8 +8,13 @@ import Root from "../page/Root";
 import Messages from "../page/user/message/Messages";
 import ChatPage from "../page/user/message/ChatPage";
 import Profile from "../page/user/Profile";
+import MessagesNew from "../page/user/message/MessagesNew";
+import { useDispatch } from "react-redux";
+import OtherProfile from "../page/user/OtherProfile";
+import Calendar from "../page/user/Todo/Calendar";
 
 const Router = () => {
+    const dispatch = useDispatch()
     const router = createBrowserRouter([
         {
             path: "/",
@@ -25,7 +30,11 @@ const Router = () => {
                     children: [
                       { index: true, element: <Profile /> },
                       { path: "messages", element: <Messages /> },
+                      { path: "messages/new", element: <MessagesNew /> },
                       { path: "messages/:id", element: <ChatPage /> },
+                      { path: "profile/:id" , element: <OtherProfile/>},
+                      { path: "todoes" , element: <Calendar/>},
+
                     ],
                 },
             ],
