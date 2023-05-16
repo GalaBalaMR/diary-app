@@ -23,14 +23,17 @@ class TodoController extends Controller
      */
     public function index()
     {
-        // $todoes = Todo::where('user_id', auth()->user()->id)->with('todoCategories')->get();
+        $todoes = Todo::where('user_id', auth()->user()->id)->with('todoCategories')->get();
+        foreach($todoes as $todo){
+            $todo->start = $todo->date;
+        }
 
-        // return response()->json([
-        //     'todoes' => $todoes
-        // ]);
-        return TodoesResource::collection(
-            Todo::where('user_id', auth()->user()->id)->get()
-        );
+        return response()->json([
+            'todoes' => $todoes
+        ]);
+        // return TodoesResource::collection(
+        //     Todo::where('user_id', auth()->user()->id)->get()
+        // );
 
         // return response()->json(['hello' => 'helou back']);
     }

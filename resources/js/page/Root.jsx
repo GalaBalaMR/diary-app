@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import MainNavigation from "../components/MainNavigation";
 import Notification from "../components/ui/Notification";
-import { getUserData } from "../store/user-action";
+import { getToDoes, getUserData } from "../store/user-action";
 
 let initiate = true;
 
@@ -28,6 +28,7 @@ const Root = () => {
 
     useEffect(() => {
         dispatch(getUserData());
+        dispatch(getToDoes());
     }, [isLogged]);
 
     return (
@@ -41,7 +42,7 @@ const Root = () => {
             )}
             {!isLogged && <MainNavigation />}
 
-            <div id="outlet" className="h-100">
+            <div id="outlet" className={ isLogged ? "h-100" : "h-auto"} >
                 <Outlet />
             </div>
         </div>

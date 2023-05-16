@@ -12,17 +12,21 @@ export const getUserData = () => {
                     dispatch(userAction.addUser(data.data.user));
                     dispatch(userAction.isLogged(true));
                     dispatch(getMessagesData());
+                    // dispatch(getToDoes());
                 }
             })
             .catch((error) => {
                 dispatch(userAction.isLogged(false));
 
                 if (error.response) {
-                    // The request was made and the server responded with a status code
-                    // that falls out of the range of 2xx
                     console.log(error.response.data);
-                    // console.log(error.response.status);
-                    // console.log(error.response.headers);
+                    // dispatch(
+                    //     uiActions.notification({
+                    //         status: "error",
+                    //         title: error.response.status,
+                    //         message: error.response.data.message,
+                    //     })
+                    // );
                 } else if (error.request) {
                     // The request was made but no response was received
                     // `error.request` is an instance of XMLHttpRequest in the
@@ -54,11 +58,13 @@ export const logOutUser = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                    // The request was made and the server responded with a status code
-                    // that falls out of the range of 2xx
-                    console.log(error.response.data);
-                    // console.log(error.response.status);
-                    // console.log(error.response.headers);
+                    dispatch(
+                        uiActions.notification({
+                            status: "error",
+                            title: error.response.status,
+                            message: error.response.data.message,
+                        })
+                    );
                 } else if (error.request) {
                     // The request was made but no response was received
                     // `error.request` is an instance of XMLHttpRequest in the
@@ -86,11 +92,13 @@ export const getMessagesData = () => {
             })
             .catch((error) => {
                 if (error.response) {
-                    // The request was made and the server responded with a status code
-                    // that falls out of the range of 2xx
-                    console.log(error.response.data);
-                    // console.log(error.response.status);
-                    // console.log(error.response.headers);
+                    dispatch(
+                        uiActions.notification({
+                            status: "error",
+                            title: error.response.status,
+                            message: error.response.data.message,
+                        })
+                    );
                 } else if (error.request) {
                     // The request was made but no response was received
                     // `error.request` is an instance of XMLHttpRequest in the
@@ -121,11 +129,13 @@ export const updateMessageBE = (data) => {
             })
             .catch((error) => {
                 if (error.response) {
-                    // The request was made and the server responded with a status code
-                    // that falls out of the range of 2xx
-                    console.log(error.response.data);
-                    // console.log(error.response.status);
-                    // console.log(error.response.headers);
+                    dispatch(
+                        uiActions.notification({
+                            status: "error",
+                            title: error.response.status,
+                            message: error.response.data.message,
+                        })
+                    );
                 } else if (error.request) {
                     // The request was made but no response was received
                     // `error.request` is an instance of XMLHttpRequest in the
@@ -142,15 +152,64 @@ export const updateMessageBE = (data) => {
 
 export const getNoConnectUser = () => {
     return async (dispatch) => {
-        const messages = await http
+        const users = await http
             .get("api/messages/new-user")
             .then((data) => {
                 dispatch(userAction.getNonConnectUsers(data.data));
             })
             .catch((error) => {
-                console.log(error);
+                if (error.response) {
+                    dispatch(
+                        uiActions.notification({
+                            status: "error",
+                            title: error.response.status,
+                            message: error.response.data.message,
+                        })
+                    );
+                } else {
+                    dispatch(
+                        uiActions.notification({
+                            status: "error",
+                            title: "Ooops...",
+                            message: "Something went wrong....",
+                        })
+                    );
+                }
             });
 
-        return messages;
+        return users;
+    };
+};
+
+export const getToDoes = () => {
+    return async (dispatch) => {
+        const toDoes = await http
+            .get("/api/todoes")
+            .then((data) => {
+                dispatch(userAction.addToDoes(data.data.todoes));
+            })
+            .catch((error) => {
+                if (error.response) {
+                    console.log(error.response);
+                    // dispatch(
+                    //     uiActions.notification({
+                    //         status: "error",
+                    //         title: error.response.status,
+                    //         message: error.response.data.message,
+                    //     })
+                    // );
+                } else if (error.request) {
+                    // The request was made but no response was received
+                    // `error.request` is an instance of XMLHttpRequest in the
+                    // browser and an instance of
+                    // http.ClientRequest in node.js
+                    console.log(error.request);
+                } else {
+                    // Something happened in setting up the request that triggered an Error
+                    console.log("Error", error.message);
+                }
+            });
+
+        return toDoes;
     };
 };

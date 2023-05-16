@@ -54,7 +54,6 @@ class MessageController extends Controller
     public function newMessage() 
     {
         $authId = auth()->user()->id;
-        $authId = 11;
         // $oldUser = Message::where('user_id', $authId)->orWhere('receiver_id', $authId)->pluck('user_id', 'receiver_id')->toArray();
         $users_id = Message::where('user_id', $authId)->pluck('receiver_id')->toArray();
         $receiver_id = Message::where('receiver_id', $authId)->pluck('user_id')->toArray();

@@ -6,6 +6,7 @@ const initialState = {
     notes: [],
     messages: [],
     nonConnectUsers: [],
+    todoes: [],
 };
 const userSlice = createSlice({
     name: "user",
@@ -30,25 +31,24 @@ const userSlice = createSlice({
                 .map((message) => {
                     ids.push(message.user.id);
                     if (message.user.id == action.payload.user.id) {
-                        console.log("jel");
                         return message.chats.push(action.payload.message);
                     }
-                    // console.log("pfuuu");
-                    // return message;
+                    return message;
                 });
 
-                console.log(ids.indexOf(action.payload.id) > -1);
-            if (ids.indexOf(action.payload.id) > -1 === false) {
-                console.log( action.payload.user);
+            // if user id is not in messeges, make new messege with user and chat
+            if (ids.indexOf(action.payload.user.id) > -1 === false) {
                 state.messages.push({
                     chats: [action.payload.message],
-                    user:   action.payload.user
+                    user: action.payload.user,
                 });
-                console.log()
             }
         },
         getNonConnectUsers(state, action) {
             state.nonConnectUsers = action.payload;
+        },
+        addToDoes(state, action) {
+            state.todoes = action.payload;
         },
     },
 });

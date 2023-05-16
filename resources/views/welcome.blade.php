@@ -17,6 +17,7 @@
 </head>
 
 <body class="antialiased">
+    <div id="modal"></div>
     <div id="app"></div>
 </body>
 
