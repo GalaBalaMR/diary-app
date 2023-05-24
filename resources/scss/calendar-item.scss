@@ -1,0 +1,28 @@
+@import "__variables";
+
+.calendar-item {
+    width: 100%;
+    // flex-direction: column;
+    height: 35vh;
+    margin: 2rem 0;
+    border-radius: 10px;
+
+    .day-title {
+        height: 100%;
+        background-color: $orange-btn;
+        display: flex;
+        border-radius: 10px 0 0 10px;
+
+        p {
+            writing-mode: vertical-rl;
+            text-orientation: upright;
+            margin: auto;
+            color: $white-font;
+            font-weight: 600;
+        }
+    }
+
+    .todo{
+        background-color: $blue-easy-nav;
+    }
+}

@@ -50,6 +50,18 @@ const userSlice = createSlice({
         addToDoes(state, action) {
             state.todoes = action.payload;
         },
+        updateTodoes(state, action) {
+            state.todoes.map((item) => {
+                if (item.date == action.payload.todo.date) {
+                    item.todo.map((todo) => {
+                        console.log(todo);
+                        if (todo.id == action.payload.todo.id) {
+                            return Object.assign(todo, action.payload.todo);
+                        }
+                    });
+                }
+            });
+        },
     },
 });
 

@@ -14,10 +14,10 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/notes/{id}/restore', [NoteController::class , 'restore']);
     Route::resource('/notes', NoteController::class);
     Route::get('/todoes/{id}/restore', [TodoController::class, 'restore']);
-    Route::resource('/todoes', TodoController::class);
     Route::get('/todoCategories/{id}/restore', [TodoCategoriesController::class, 'restore']);
     Route::apiResource('/todoCategories', TodoCategoriesController::class);
 });
+Route::resource('/todoes', TodoController::class);
 
 Route::get('/logout', [AuthController::class, 'logout']);
 Route::post('/login', [AuthController::class, 'login']);

@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Todo;
 use App\Helpers\Helper;
+use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
-use App\Http\Requests\TodoStoreRequest;
 use App\Http\Resources\TodoesResource;
+use App\Http\Requests\TodoStoreRequest;
 
 class TodoController extends Controller
 {
@@ -23,19 +25,64 @@ class TodoController extends Controller
      */
     public function index()
     {
-        $todoes = Todo::where('user_id', auth()->user()->id)->with('todoCategories')->get();
+        // Get the current date
+        $currentDate = Carbon::now();
+
+        // Get yesterday's date
+        $yesterdayDate = Carbon::yesterday();
+
+        // Calculate the start and end dates for the next week
+        $nextWeekStartDate = $currentDate->copy()->startOfWeek()->addWeek(1);
+        $nextWeekEndDate = $nextWeekStartDate->copy()->endOfWeek();
+
+        // Calculate the start date for the last 7 days
+        $lastSevenDaysStartDate = $yesterdayDate->copy()->subDays(6);
+
+        // Create a CarbonPeriod for the next week
+        $nextWeekPeriod = CarbonPeriod::create($currentDate, $nextWeekEndDate);
+
+
+        // Create a CarbonPeriod for the last 7 days
+        $lastSevenDaysPeriod = CarbonPeriod::create($lastSevenDaysStartDate, $yesterdayDate);
+
+        
+        $nextWeekDates = [];
+        foreach ($nextWeekPeriod as $date) {
+            $nextWeekDates[] = $date->format('Y-m-d');
+        }
+
+        
+        // Convert the CarbonPeriod to an array of formatted date strings
+        $lastSevenDaysDates = [];
+        foreach ($lastSevenDaysPeriod as $date) {
+            $lastSevenDaysDates[] = $date->format('Y-m-d');
+        }
+        
+        $allDays = array_merge($lastSevenDaysDates, $nextWeekDates);
+        
+        $nowFormat = $currentDate->format('Y-m-d');
+
+        foreach($allDays as $key => $day){
+            if($day === $nowFormat){
+                $allDays[$key] = ["date" => $day, "todo" => null, "day" => Carbon::createFromDate($day)->dayOfWeek, "now" => "true"];
+            }else{
+                $allDays[$key] = ["date" => $day, "todo" => null, "day" => Carbon::createFromDate($day)->dayOfWeek, "now" => "false"];
+            }
+        }
+
+        $todoes = Todo::where('user_id', 11)->get();
+
         foreach($todoes as $todo){
-            $todo->start = $todo->date;
+            foreach($allDays as $key => $day){
+                if($todo->date === $day['date']){
+                    $allDays[$key]['todo'][] = $todo;
+                }
+            }
         }
 
         return response()->json([
-            'todoes' => $todoes
+            'todoes' => $allDays
         ]);
-        // return TodoesResource::collection(
-        //     Todo::where('user_id', auth()->user()->id)->get()
-        // );
-
-        // return response()->json(['hello' => 'helou back']);
     }
 
     /**
@@ -45,8 +92,7 @@ class TodoController extends Controller
     {
         $request->validated($request->all());
 
-        if($request->has('todo_categories'))
-        {
+        if ($request->has('todo_categories')) {
             $todoCategories = $request->todo_categories;
         }
 
@@ -57,8 +103,7 @@ class TodoController extends Controller
             'user_id' => auth()->user()->id
         ]);
 
-        if(isset($todoCategories))
-        {
+        if (isset($todoCategories)) {
             $todo->todoCategories()->attach($todoCategories);
         }
 
@@ -81,8 +126,7 @@ class TodoController extends Controller
      */
     public function update(Request $request, Todo $todo)
     {
-        if($request->has('todo_categories'))
-        {
+        if ($request->has('todo_categories')) {
             $todoCategories = $request->todo_categories;
         }
 
@@ -90,11 +134,11 @@ class TodoController extends Controller
             'title' => $request->title,
             'body' => $request->body,
             'date' => $request->date,
+            'time' => $request->time,
             'user_id' => auth()->user()->id
         ]);
 
-        if(isset($todoCategories))
-        {
+        if (isset($todoCategories)) {
             $todo->todoCategories()->detach();
             $todo->todoCategories()->attach($todoCategories);
         }

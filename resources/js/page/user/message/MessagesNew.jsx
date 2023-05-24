@@ -13,7 +13,6 @@ const MessagesNew = () => {
     const messages = useSelector((state) => state.user.messages);
     const [formUser, setFormUser] = useState(null);
     const dispatch = useDispatch();
-    const scrollRef = useRef(null);
     const length = newUsers.length;
 
     useEffect(() => {
@@ -33,21 +32,11 @@ const MessagesNew = () => {
         setCurrent(current === length - 1 ? 0 : current + 1);
         setFormUser(null);
     };
-
-    scrollRef.current?.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-    });
     
     const onClickSetUser = (user) => () => {
         setFormUser(user);
-        scrollRef.current?.scrollIntoView({
-            behavior: "smooth",
-            block: "start",
-        });
     };
 
-    console.log(messages);
     function getWordStr(str) {
         if (str === null) {
             return;
@@ -86,8 +75,6 @@ const MessagesNew = () => {
         );
     });
 
-    console.log(newUsers);
-
     return (
         <div className="messages-new">
             <h1 className="text-center my-3">Find new user</h1>
@@ -113,7 +100,6 @@ const MessagesNew = () => {
             <div
                 className="col-10 col-md-9 m-auto pb-5"
                 id="form-chat"
-                ref={scrollRef}
             >
                 {formUser && <ChatForm user={formUser} />}
             </div>

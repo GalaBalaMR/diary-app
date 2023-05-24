@@ -12,6 +12,7 @@ import MessagesNew from "../page/user/message/MessagesNew";
 import { useDispatch } from "react-redux";
 import OtherProfile from "../page/user/OtherProfile";
 import Calendar from "../page/user/Todo/Calendar";
+import Diary from "../page/user/diary/Diary";
 
 const Router = () => {
     const dispatch = useDispatch()
@@ -19,7 +20,7 @@ const Router = () => {
         {
             path: "/",
             element: <Root />,
-            errorElement: <Error />,
+            // errorElement: <Error />,
             children: [
                 { index: true, element: <Home /> },
                 { path: "login", element: <Login /> },
@@ -34,6 +35,7 @@ const Router = () => {
                       { path: "messages/:id", element: <ChatPage /> },
                       { path: "profile/:id" , element: <OtherProfile/>},
                       { path: "todoes" , element: <Calendar/>},
+                      { path: "diary" , element: <Diary/>},
 
                     ],
                 },

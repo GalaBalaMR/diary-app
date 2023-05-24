@@ -1,9 +1,19 @@
-import React from 'react'
+import React, { useState } from "react";
 
-const Modal = () => {
-  return (
-    <div>Modal</div>
-  )
-}
+const Modal = (props) => {
+    const handleClose = () => {
+        props.onClose();
+    };
 
-export default Modal
+    // if (!props.isOpen) {
+    //     return null;
+    // }
+
+    return (
+        <div className="my-modal" onClick={handleClose}>
+            <div className="my-modal-content" onClick={(e) => { e.stopPropagation(); }}>{props.children}</div>
+        </div>
+    );
+};
+
+export default Modal;

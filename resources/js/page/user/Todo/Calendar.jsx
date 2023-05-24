@@ -1,119 +1,104 @@
-import React, { useEffect, useState } from "react";
-import FullCalendar from "@fullcalendar/react"; // must go before plugins
-import dayGridPlugin from "@fullcalendar/daygrid"; // a plugin!
-import interactionPlugin from "@fullcalendar/interaction";
-import styled from "@emotion/styled";
+import React, { useEffect, useState, useRef } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 import { userAction } from "../../../store/user-slice";
 import { getToDoes } from "../../../store/user-action";
-import "./fullcalendar.css";
-import * as bootstrap from "bootstrap";
+import CalendarItem from "../../../components/calendar/CalendarItem";
+import Modal from "../../../components/ui/Modal";
+import CalendarModal from "../../../components/calendar/CalendarModal";
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 
 const Calendar = () => {
     const dispatch = useDispatch();
     const todoes = useSelector((state) => state.user.todoes);
     const isLogged = useSelector((state) => state.user.isLogged);
-    const [events, setEvents] = useState(todoes);
-    const [popup, setPopup] = useState(null);
+    const todayRef = useRef();
+    const [current, setCurrent] = useState(todayRef);
+    const [currentNumber, setCurrentNumber] = useState(7);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [item, setItem] = useState(null);
+
+    const openModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setItem(null)
+    };
+
+    const onClickSetItem = (item) => {
+        setItem(item);
+        setCurrentNumber(item.id)
+    };
+
+    console.log(todoes);
+    const length = todoes.length;
+
+    const scrollToBottom = (how) => {
+        current.current?.scrollIntoView({
+            behavior: how,
+            block: "center",
+        });
+    };
 
     useEffect(() => {
-        dispatch(getToDoes());
-        setEvents(todoes);
+        scrollToBottom("instant");
     }, []);
 
-    const StyleWrapper = styled.div`
-        fc-popover {
-            left: 1;
-            background-color: red($color: #000000);
+    useEffect(() => {
+        scrollToBottom("smooth");
+    }, [currentNumber]);
+
+    // currentNumber is send as props in calendar item, which render ref for item based on current number
+    const onClickPrevious = () => {
+        if (currentNumber == 0) {
+            return;
         }
-    `;
-
-    const renderEventContent = (eventInfo) => {
-        return (
-            <>
-                {/* <i>{eventInfo.event.extendedProps.created_at */}
-                {/* }</i> */}
-                <i>{eventInfo.event.title}</i>
-                <i>{eventInfo.event.extendedProps.body}</i>
-            </>
-        );
+        setCurrentNumber(currentNumber - 1);
     };
-    console.log(todoes);
 
-    const handleDateSelect = (selectInfo) => {
-        let title = prompt("Please enter a new title for your event");
-        let calendarApi = selectInfo.view.calendar;
-
-        calendarApi.unselect(); // clear date selection
-
-        if (title) {
-            calendarApi.addEvent({
-                id: 2,
-                title,
-                start: selectInfo.startStr,
-                end: selectInfo.endStr,
-                allDay: selectInfo.allDay,
-            });
+    const onClickAfter = () => {
+        if (currentNumber == length - 1) {
+            return;
         }
+        setCurrentNumber(currentNumber + 1);
     };
+    console.log(item);
 
-    let eventPopup = null;
-    const handleEventClick = (clickInfo) => {
-        // if (
-        //     confirm(
-        //         `Are you sure you want to delete the event '${clickInfo.event.title}'`
-        //     )
-        // ) {
-        //     clickInfo.event.remove();
-        // }
+    let calendar = null;
 
-        setPopup(clickInfo);
-        console.log(clickInfo.event);
-    };
-
-    const handleDidMount = (info) => {
-        return setPopup(info.event);
-    };
-
-    const onClickRemoveEvent = () => {
-        popup.event.remove();
-        console.log(popup);
-    };
+    if (todoes.length > 0) {
+        calendar = todoes.map((item, key) => {
+            return (
+                <CalendarItem
+                    item={item}
+                    id={key}
+                    key={key}
+                    ref={todayRef}
+                    number={currentNumber}
+                    setItem={onClickSetItem}
+                    openModal={openModal}
+                />
+            );
+        });
+        scrollToBottom("instant");
+    }
 
     return (
         <div className="calendar">
-            <StyleWrapper>
-                <FullCalendar
-                    plugins={[dayGridPlugin, interactionPlugin]}
-                    initialView="dayGridMonth"
-                    selectable={true}
-                    editable={true}
-                    select={handleDateSelect}
-                    initialEvents={events}
-                    eventContent={renderEventContent}
-                    selectMirror={true}
-                    // dayMaxEvents={true}
-                    eventClick={handleEventClick}
-                    eventDidMount={(info)=>{
-                        return new bootstrap.Popover(info.el, {
-                            title: info.event.title,
-                            placement: "auto",
-                            trigger: "hover focus",
-                            customClass: "popoverStyle",
-                            content: "<p>Hellou this is popover</p>",
-                            html: true
-                        })
-                    }}
-                />
-            </StyleWrapper>
-
-            {popup && (
-                <p>
-                    {popup.event._def.title} body:{" "}
-                    {popup.event._def.extendedProps.body}
-                    <button onClick={onClickRemoveEvent}>vymazat</button>
-                </p>
+            <div className="previous" onClick={onClickPrevious}>
+                <ArrowDropUpIcon className="d-block m-auto" fontSize="large"/>
+            </div>
+            <div className="days-container">{calendar}</div>
+            <div className="after" onClick={onClickAfter}>
+                <ArrowDropDownIcon className="d-block m-auto " fontSize="large"/>
+            </div>
+            {isModalOpen && (
+                <Modal onClose={closeModal}>
+                    <CalendarModal item={item}/>
+                </Modal>
             )}
         </div>
     );

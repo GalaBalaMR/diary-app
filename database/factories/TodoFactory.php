@@ -20,7 +20,8 @@ class TodoFactory extends Factory
         return [
             'title' => fake()->word(2),
             'body' => fake()->sentence(2),
-            'date' => fake()->dateTimeBetween('+1 week', '+1 month'),
+            'date' => fake()->dateTimeBetween('-1 week', '+2 week'),
+            'time' => fake()->time('H:i:s'),
             'user_id' => User::all()->random()->id,
         ];
     }

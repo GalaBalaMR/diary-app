@@ -1,0 +1,67 @@
+@import "__variables";
+
+.calendar {
+    .days-container {
+        overflow: auto;
+        height: 80vh;
+    }
+    .calendar-item {
+        width: 100%;
+        // flex-direction: column;
+        height: auto;
+        min-height: 35vh;
+        margin: 2rem 0;
+        // border-radius: 10px;
+        border-radius: 10px 0 0 10px;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 2px 8px;
+
+        .day-title {
+            background-color: $orange-btn;
+            display: flex;
+            border-radius: 10px 0 0 10px;
+
+            p {
+                writing-mode: vertical-rl;
+                text-orientation: upright;
+                margin: auto;
+                color: $white-font;
+                font-weight: 600;
+            }
+        }
+
+        .todo {
+            background-color: $blue-easy-nav;
+
+            .todo-item {
+                padding: 5px;
+                border-radius: 12px;
+                color: $white-font;
+                background-color: #00eeff;
+
+                p {
+                    margin-bottom: 0;
+                }
+
+                .time {
+                    font-size: 1.2rem;
+                }
+            }
+        }
+    }
+
+    .hidden {
+        transition: opacity 200ms, display 200ms;
+        display: none;
+        opacity: 0;
+    }
+
+    .today {
+        .day-title {
+            background-color: #9c6c13c2;
+        }
+    }
+
+    .days-container::-webkit-scrollbar {
+        display: none;
+    }
+}
