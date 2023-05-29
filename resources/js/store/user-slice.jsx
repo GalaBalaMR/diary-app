@@ -54,11 +54,17 @@ const userSlice = createSlice({
             state.todoes.map((item) => {
                 if (item.date == action.payload.todo.date) {
                     item.todo.map((todo) => {
-                        console.log(todo);
                         if (todo.id == action.payload.todo.id) {
                             return Object.assign(todo, action.payload.todo);
                         }
                     });
+                }
+            });
+        },
+        addTodoes(state, action) {
+            state.todoes.map((item) => {
+                if (item.date == action.payload.todo.date) {
+                    return item.todo.push(action.payload.todo);
                 }
             });
         },

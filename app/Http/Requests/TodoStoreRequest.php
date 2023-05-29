@@ -24,6 +24,7 @@ class TodoStoreRequest extends FormRequest
         return [
             'title' => ['required'],
             'body' => ['required'],
+            'time' => ['required'],
             'date' => ['required'],
         ];
     }

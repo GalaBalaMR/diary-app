@@ -6,6 +6,7 @@ namespace App\Models;
 use App\Models\Note;
 use App\Models\Gallery;
 use App\Models\Message;
+use App\Models\Notification;
 use App\Models\TodoCategory;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
@@ -76,5 +77,9 @@ class User extends Authenticatable
     public function todoCategories()
     {
         return $this->hasMany(TodoCategory::class);
+    }
+
+    public function notifications(){
+        return $this->hasMany(Notification::class);
     }
 }

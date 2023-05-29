@@ -6,8 +6,8 @@ import { getToDoes } from "../../../store/user-action";
 import CalendarItem from "../../../components/calendar/CalendarItem";
 import Modal from "../../../components/ui/Modal";
 import CalendarModal from "../../../components/calendar/CalendarModal";
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
 
 const Calendar = () => {
     const dispatch = useDispatch();
@@ -25,15 +25,14 @@ const Calendar = () => {
 
     const closeModal = () => {
         setIsModalOpen(false);
-        setItem(null)
+        setItem(null);
     };
 
     const onClickSetItem = (item) => {
         setItem(item);
-        setCurrentNumber(item.id)
+        setCurrentNumber(item.id);
     };
 
-    console.log(todoes);
     const length = todoes.length;
 
     const scrollToBottom = (how) => {
@@ -65,7 +64,11 @@ const Calendar = () => {
         }
         setCurrentNumber(currentNumber + 1);
     };
-    console.log(item);
+
+    const setCurrentOnAdd = (numb) =>{
+        setCurrentNumber(numb)
+        console.log()
+    }
 
     let calendar = null;
 
@@ -80,24 +83,40 @@ const Calendar = () => {
                     number={currentNumber}
                     setItem={onClickSetItem}
                     openModal={openModal}
+                    setCurrentOnAdd={setCurrentOnAdd}
                 />
             );
         });
         scrollToBottom("instant");
     }
 
+    const onClickScrollToday = () => {
+        setCurrentNumber(7);
+        scrollToBottom("smooth");
+    };
+
     return (
         <div className="calendar">
             <div className="previous" onClick={onClickPrevious}>
-                <ArrowDropUpIcon className="d-block m-auto" fontSize="large"/>
+                <ArrowDropUpIcon className="d-block m-auto" fontSize="large" />
             </div>
-            <div className="days-container">{calendar}</div>
+            <div className="days-container">
+                <div className="bg-up"></div>
+                {calendar}
+                <div className="scroll-today" onClick={onClickScrollToday}>
+                    Today
+                </div>
+                <div className="bg-down"></div>
+            </div>
             <div className="after" onClick={onClickAfter}>
-                <ArrowDropDownIcon className="d-block m-auto " fontSize="large"/>
+                <ArrowDropDownIcon
+                    className="d-block m-auto "
+                    fontSize="large"
+                />
             </div>
             {isModalOpen && (
                 <Modal onClose={closeModal}>
-                    <CalendarModal item={item}/>
+                    <CalendarModal item={item} />
                 </Modal>
             )}
         </div>

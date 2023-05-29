@@ -46,7 +46,7 @@ const CalendarModal = (props) => {
     const onClickToogleForm = () => {
         setShowForm(!showForm);
     };
-    
+
     return (
         <div>
             <p>Title: {item.todo.title}</p>
@@ -55,47 +55,54 @@ const CalendarModal = (props) => {
             </p>
             <p>What: {item.todo.body}</p>
 
-            <button className="btn-cstm-orange d-block m-auto" onClick={onClickToogleForm}>{showForm == true ? "Hide form": "Update"}</button>
+            <button
+                className="btn-cstm-orange d-block m-auto"
+                onClick={onClickToogleForm}
+            >
+                {showForm == true ? "Hide form" : "Update"}
+            </button>
 
-            {showForm && <form onSubmit={onSubmitUpdt}>
-                <label htmlFor="" className="form-label">
-                    Title
-                </label>
-                <input
-                    className="form-control"
-                    type="text"
-                    name="title"
-                    value={title}
-                    onChange={changeTitle}
-                />
-                <label htmlFor="" className="form-label">
-                    Body
-                </label>
-                <input
-                    className="form-control"
-                    type="text"
-                    name="body"
-                    value={body}
-                    onChange={changeBody}
-                />
-                <label htmlFor="" className="form-label">
-                    Time
-                </label>
-                <input
-                    className="form-control"
-                    type="time"
-                    name="time"
-                    value={time}
-                    step="60"
-                    onChange={changeTime}
-                />
-                <button
-                    type="submit"
-                    className="btn-cstm-orange d-block m-auto mt-3"
-                >
-                    Update
-                </button>
-            </form>}
+            {showForm && (
+                <form onSubmit={onSubmitUpdt}>
+                    <label htmlFor="" className="form-label">
+                        Title
+                    </label>
+                    <input
+                        className="form-control"
+                        type="text"
+                        name="title"
+                        value={title}
+                        onChange={changeTitle}
+                    />
+                    <label htmlFor="" className="form-label">
+                        Body
+                    </label>
+                    <input
+                        className="form-control"
+                        type="text"
+                        name="body"
+                        value={body}
+                        onChange={changeBody}
+                    />
+                    <label htmlFor="" className="form-label">
+                        Time
+                    </label>
+                    <input
+                        className="form-control"
+                        type="time"
+                        name="time"
+                        value={time}
+                        step="60"
+                        onChange={changeTime}
+                    />
+                    <button
+                        type="submit"
+                        className="btn-cstm-orange d-block m-auto mt-3"
+                    >
+                        Update
+                    </button>
+                </form>
+            )}
         </div>
     );
 };

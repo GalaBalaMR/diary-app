@@ -1,9 +1,10 @@
 @import "__variables";
 
 .calendar {
+    position: relative;
     .days-container {
         overflow: auto;
-        height: 80vh;
+        height: 70vh;
     }
     .calendar-item {
         width: 100%;
@@ -63,5 +64,42 @@
 
     .days-container::-webkit-scrollbar {
         display: none;
+    }
+
+    .bg-up{
+        height: 5vh;
+        top: 5vh;
+        left: 0;
+        right: 0;
+        position: absolute;
+        background: linear-gradient(0deg, rgba(220,226,226,0) 0%, rgba(240,255,255,1) 99%);
+    }
+    .bg-down{
+        height: 5vh;
+        bottom: 5vh;
+        left: 0;
+        right: 0;
+        position: absolute;
+        background: linear-gradient(0deg, rgba(240,255,255,1) 0%, rgba(220,226,226,0) 99%);
+    }
+
+    .scroll-today{
+        position: absolute;
+        height: fit-content;
+        bottom: 8vh;
+        right: 3vw;
+        border: 1px solid gray;
+        border-radius: 50%;
+        background-color: #f4b45b;
+        color: $white-font;
+        padding: 1rem;
+        z-index: 1000;
+    }
+
+    .after{
+        height: 5vh;
+    }
+    .previous{
+        height: 5vh;
     }
 }

@@ -15,10 +15,10 @@ class TodoController extends Controller
     /**
      * Add middleware for some route
      */
-    public function __construct()
-    {
-        $this->middleware('UserAuthenticateForAction')->only(['show', 'update', 'create', 'destroy']);
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('UserAuthenticateForAction')->only(['show', 'update', 'create', 'destroy']);
+    // }
 
     /**
      * Display a listing of the resource.
@@ -64,9 +64,9 @@ class TodoController extends Controller
 
         foreach($allDays as $key => $day){
             if($day === $nowFormat){
-                $allDays[$key] = ["date" => $day, "todo" => null, "day" => Carbon::createFromDate($day)->dayOfWeek, "now" => "true"];
+                $allDays[$key] = ["date" => $day, "todo" => [], "day" => Carbon::createFromDate($day)->dayOfWeek, "now" => "true"];
             }else{
-                $allDays[$key] = ["date" => $day, "todo" => null, "day" => Carbon::createFromDate($day)->dayOfWeek, "now" => "false"];
+                $allDays[$key] = ["date" => $day, "todo" => [], "day" => Carbon::createFromDate($day)->dayOfWeek, "now" => "false"];
             }
         }
 
@@ -100,6 +100,7 @@ class TodoController extends Controller
             'title' => $request->title,
             'body' => $request->body,
             'date' => $request->date,
+            'time' => $request->time,
             'user_id' => auth()->user()->id
         ]);
 

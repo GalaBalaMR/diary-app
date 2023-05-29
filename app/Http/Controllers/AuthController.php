@@ -37,7 +37,7 @@ class AuthController extends Controller
         $request->validated($request->all());
 
         $pathImageThumb = '/storage/user/unknown/profile/unknown-thumbnail.jpeg';
-        $pathImage = '/storage/user/unknown/profile/unknown-thumbnail.jpeg';
+        $pathImage = '/storage/user/unknown/profile/unknown.jpeg';
         
         if($request->hasFile('img')){
             $requestImg = $request->file('img');
