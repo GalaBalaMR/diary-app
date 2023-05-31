@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 const Modal = (props) => {
+
     const handleClose = () => {
         props.onClose();
     };
@@ -11,7 +12,14 @@ const Modal = (props) => {
 
     return (
         <div className="my-modal" onClick={handleClose}>
-            <div className="my-modal-content" onClick={(e) => { e.stopPropagation(); }}>{props.children}</div>
+            <div
+                className="my-modal-content"
+                onClick={(e) => {
+                    e.stopPropagation();
+                }}
+            >
+                {props.children}
+            </div>
         </div>
     );
 };

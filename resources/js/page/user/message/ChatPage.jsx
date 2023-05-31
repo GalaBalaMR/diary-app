@@ -11,30 +11,29 @@ const ChatPage = () => {
     const messages = useSelector((state) => state.user.messages);
 
     const makeChat = () => {
-      const filteredChat = messages.filter((message) => message.user.id == id)
+        const filteredChat = messages.filter(
+            (message) => message.user.id == id
+        );
 
-      const chatEl = filteredChat.map((mes, key) => (
-          <Chat key={key} user={mes.user} chats={mes.chats} />
-      ));
-      
-      setChat(chatEl)
-      if(filteredChat.length > 0 ){
-        setUser(filteredChat[0].user)
-      }
-      console.log()
+        const chatEl = filteredChat.map((mes, key) => (
+            <Chat key={key} user={mes.user} chats={mes.chats} id={id}/>
+        ));
 
-      // return filteredChat
-    }
-    useEffect(()=> {
-      makeChat()
-    }, [messages])
+        setChat(chatEl);
+        if (filteredChat.length > 0) {
+            setUser(filteredChat[0].user);
+        }
+    };
 
-console.log(messages)
+    useEffect(() => {
+        makeChat();
+    }, [messages]);
+
     return (
         <div className="h-100">
-          <Link to={"/user/profile/" + user.id} state={user}>
-            <h2 className="text-center">{user && user.name}</h2>
-          </Link>
+            <Link to={"/user/profile/" + user.id} state={user}>
+                <h2 className="text-center pt-2">{user && user.name}</h2>
+            </Link>
             {chat}
             <ChatForm user={user} />
         </div>

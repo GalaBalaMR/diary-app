@@ -68,7 +68,7 @@
 
     .bg-up{
         height: 5vh;
-        top: 5vh;
+        top: 4.8vh;
         left: 0;
         right: 0;
         position: absolute;
@@ -93,7 +93,7 @@
         background-color: #f4b45b;
         color: $white-font;
         padding: 1rem;
-        z-index: 1000;
+        z-index: 100;
     }
 
     .after{

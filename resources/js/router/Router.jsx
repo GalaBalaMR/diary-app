@@ -13,6 +13,7 @@ import { useDispatch } from "react-redux";
 import OtherProfile from "../page/user/OtherProfile";
 import Calendar from "../page/user/Todo/Calendar";
 import Diary from "../page/user/diary/Diary";
+import NotificationsAll from "../page/user/NotificationsAll";
 
 const Router = () => {
     const dispatch = useDispatch()
@@ -36,6 +37,7 @@ const Router = () => {
                       { path: "profile/:id" , element: <OtherProfile/>},
                       { path: "todoes" , element: <Calendar/>},
                       { path: "diary" , element: <Diary/>},
+                      { path: "notifications" , element: <NotificationsAll/>},
 
                     ],
                 },

@@ -11,13 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('notification', function (Blueprint $table) {
+        Schema::create('notifications', function (Blueprint $table) {
             $table->id();
             $table->string('title');
             $table->string('body');
             $table->string('status');
             $table->string('kind');
+            $table->string('displayed');
             $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreignId('receiver_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

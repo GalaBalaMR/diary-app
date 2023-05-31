@@ -12,10 +12,6 @@ class Message extends Model
 
     protected $guarded = ['id'];
 
-    // protected $casts = [
-    //     'created_at' => "datetime:Y-m-d H:i:s",
-    // ];
-
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -25,9 +21,4 @@ class Message extends Model
     {
         return $this->belongsTo(User::class);
     }
-
-    // public function getCreatedAtAttribute($date)
-    // {
-    //     return Carbon::createFromFormat('Y-m-d H:i:s', $date)->format('Y-m-d');
-    // }
 }

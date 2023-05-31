@@ -2,14 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Helpers\Helper;
 use App\Models\Message;
+use App\Models\Notification;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\StoreMessageRequest;
-use App\Models\User;
-
+use App\Mail\SendMessageMail;
+use App\Enums\NotificationEnum;
 use function GuzzleHttp\Promise\all;
+use Illuminate\Support\Facades\Auth;
+
+use Illuminate\Support\Facades\Mail;
+use App\Http\Requests\StoreMessageRequest;
 
 class MessageController extends Controller
 {
@@ -19,7 +23,7 @@ class MessageController extends Controller
     public function index()
     {
         $messages = Message::where('user_id', auth()->user()->id)->orWhere('receiver_id', auth()->user()->id)->orderBy('created_at', 'DESC')->get();
-        
+
         $idssend = $messages->pluck('user_id')->toArray();
         $idsrec = $messages->pluck('receiver_id')->toArray();
         $ids = array_merge($idssend, $idsrec);
@@ -31,13 +35,13 @@ class MessageController extends Controller
             $groupMessagesRec = $messages->where('receiver_id', $id);
 
             $groupMessages = $groupMessagesSend->merge($groupMessagesRec)->sortByDesc('created_at');
-            
+
             $groupMessages->map(function ($message, $key) {
                 $message->created_diff = $message->created_at->diffForHumans();
                 return $message;
-            });//add created_diff to collection for readable date
+            }); //add created_diff to collection for readable date
 
-            $resetIdMessages = $groupMessages->reverse()->values();//reset id after previous line of sort by
+            $resetIdMessages = $groupMessages->reverse()->values(); //reset id after previous line of sort by
             $user = User::find($id);
 
             $chats[] = ['chats' => $resetIdMessages, 'user' => $user];
@@ -51,7 +55,7 @@ class MessageController extends Controller
     }
 
 
-    public function newMessage() 
+    public function newMessage()
     {
         $authId = auth()->user()->id;
         // $oldUser = Message::where('user_id', $authId)->orWhere('receiver_id', $authId)->pluck('user_id', 'receiver_id')->toArray();
@@ -64,10 +68,10 @@ class MessageController extends Controller
 
         $allUsers = User::all()->pluck('id')->toArray();
 
-        
-        $noConnectedUserId = array_diff($allUsers, $oldUser);//compare and set new array
-        $noConnectedUserId = array_values($noConnectedUserId);//reset key
-        
+
+        $noConnectedUserId = array_diff($allUsers, $oldUser); //compare and set new array
+        $noConnectedUserId = array_values($noConnectedUserId); //reset key
+
         // dd([$allUsers, $oldUser, $noConnectedUserId]) ;
         $users = User::findMany($noConnectedUserId);
 
@@ -87,6 +91,18 @@ class MessageController extends Controller
             'receiver_id' => $request->receiver_id,
         ]);
 
+        $notification = Notification::create([
+            'title' => "receive new message",
+            'body' => auth()->user()->name . " send you a message. " . $message->created_at,
+            'kind' => NotificationEnum::Message,
+            'status' => 'success',
+            'displayed' => 'false',
+            'user_id' => auth()->user()->id,
+            'receiver_id' => $request->receiver_id,
+        ]);
+
+        Mail::to($notification->receiver->email)->send(new SendMessageMail($notification));
+
         return response()->json([
             'status' => 'ok',
             'message' => 'Your message was send...',
@@ -101,6 +117,24 @@ class MessageController extends Controller
     {
         return response()->json([
             'item' => $message,
+        ]);
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function updateChat($id)
+    {
+        $messages = Message::where([['receiver_id', Auth::user()->id], ['user_id', $id]])->orWhere([['receiver_id', $id], ['user_id', Auth::user()->id]])->get();
+        // ->orderBy('created_at', 'DESC')
+
+        $messages->map(function ($message, $key) {
+            $message->created_diff = $message->created_at->diffForHumans();
+            return $message;
+        }); //add created_diff to collection for readable date
+
+        return response()->json([
+            'message' => $messages,
         ]);
     }
 

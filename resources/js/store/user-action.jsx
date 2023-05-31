@@ -150,6 +150,43 @@ export const updateMessageBE = (data) => {
     };
 };
 
+// export const updateChat = (id) => {
+//     return async (dispatch) => {
+//         // const csrf = await http.get("/sanctum/csrf-cookie");
+//         const fetchData = async () => {
+//             const messages = await http
+//                 .get("/api/messages/" + id + "/updated-chat")
+//                 .then((response) => {
+//                      return response.data.message;
+//                 })
+//                 .catch((error) => {
+//                     if (error.response) {
+//                         dispatch(
+//                             uiActions.notification({
+//                                 status: "error",
+//                                 title: error.response.status,
+//                                 message: error.response.data.message,
+//                             })
+//                         );
+//                     } else if (error.request) {
+//                         // The request was made but no response was received
+//                         // `error.request` is an instance of XMLHttpRequest in the
+//                         // browser and an instance of
+//                         // http.ClientRequest in node.js
+//                         console.log(error.request);
+//                     } else {
+//                         // Something happened in setting up the request that triggered an Error
+//                         console.log("Error", error.message);
+//                     }
+//                 });
+//                 const data = messages.json()
+//             return data;
+//         };
+        
+//         const data = await fetchData();
+//     };
+// };
+
 export const getNoConnectUser = () => {
     return async (dispatch) => {
         const users = await http

@@ -36,7 +36,7 @@ const userSlice = createSlice({
                     return message;
                 });
 
-            // if user id is not in messeges, make new messege with user and chat
+            // if user id is not in messages, make new message with user and chat
             if (ids.indexOf(action.payload.user.id) > -1 === false) {
                 state.messages.push({
                     chats: [action.payload.message],

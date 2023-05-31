@@ -1,7 +1,6 @@
 @import "__variables";
 
-
-.notification{
+.notification {
     width: 100%;
     height: 50px;
     position: absolute;
@@ -14,32 +13,79 @@
     transition: height 0.3s;
     background-color: #807e7e;
     z-index: 500;
-    p{
+    p {
         margin: 0;
     }
 
-    .error{
+    .error {
         background-color: red;
     }
 }
 
-.notification.error{
+.notification.error {
     background-color: #b71e1e;
     color: $white-font;
 }
 
-.notification.success{
+.notification.success {
     background-color: #45aa45;
     color: $white-font;
 }
 
 @keyframes notificationHeight {
-    0%{
+    0% {
         height: 0;
     }
-    100%{
+    100% {
         height: 50px;
     }
-    
 }
 
+.my-modal {
+    .modal-notification {
+        width: 85vw;
+        ul {
+            max-height: 70vh;
+            overflow: auto;
+            li {
+                list-style-type: none;
+
+                a {
+                    text-decoration: none;
+                    color: $black-font;
+                    padding: 10px;
+                    .icon {
+                        background-color: $background-white;
+                        border-radius: 50%;
+                        padding: 10px;
+                        svg {
+                            position: relative;
+                            bottom: 2px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+.all-notification {
+    padding-top: 10px;
+    ul {
+        overflow-y: scroll;
+        height: 75vh;
+        margin-top: 40px;
+
+        li {
+            list-style: none;
+            a {
+                color: $black-font;
+                text-decoration: none;
+            }
+        }
+    }
+    ul::-webkit-scrollbar {
+        background-color: transparent;
+        width: 5px;
+    }
+}
